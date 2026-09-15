@@ -149,201 +149,36 @@ export function DG16Background({ lang }: DG16BackgroundProps) {
           opacity: 0.32,
           ease: 'none',
         }, 0.18)
-        // Move into feature showcase pipeline (focus view)
+        // Fade ambient down during the pinned feature inspection stage so the stage takes 100% spotlight
         .to(svgWrap, {
-          xPercent: -16,
+          xPercent: -10,
           yPercent: 0,
-          scale: 1.26,
-          rotation: 0,
-          opacity: 0.62,
+          scale: 1.1,
+          opacity: 0.05,
           ease: 'none',
-        }, 0.42)
-        // Maintain presence through feature cards
+        }, 0.35)
         .to(svgWrap, {
-          xPercent: -14,
-          yPercent: 2,
-          scale: 1.22,
-          opacity: 0.58,
+          opacity: 0.05,
           ease: 'none',
-        }, 0.7)
-        // Move into cavity library section
+        }, 0.70)
+        // Move into cavity library section: restore ambient presence
         .to(svgWrap, {
-          xPercent: 18,
-          yPercent: -3,
+          xPercent: 16,
+          yPercent: -2,
           scale: 1.02,
           rotation: 2,
-          opacity: 0.3,
+          opacity: 0.28,
           ease: 'none',
         }, 0.85)
         // Finish at bottom footer area
         .to(svgWrap, {
           xPercent: 0,
-          yPercent: 8,
+          yPercent: 6,
           scale: 1.0,
           rotation: 0,
-          opacity: 0.25,
+          opacity: 0.22,
           ease: 'none',
         }, 1.0);
-
-      // -------------------------------------------------------------
-      // 4. Feature Card Highlights with Energetic DrawSVG Pulse Loops
-      // -------------------------------------------------------------
-      const featureCards = document.querySelectorAll<HTMLElement>('[data-feature-index]');
-
-      const resetHighlights = () => {
-        gsap.to([outlineGroup, cvGroup, pilotGroup, boltGroup], {
-          opacity: 0.4,
-          duration: 0.4,
-          overwrite: 'auto',
-        });
-        gsap.to(boltZones, {
-          fill: 'transparent',
-          strokeWidth: 0.4,
-          stroke: '#9ca3af',
-          duration: 0.4,
-          overwrite: 'auto',
-        });
-        gsap.to(cvRings, {
-          fill: '#f3f4f6',
-          duration: 0.4,
-          overwrite: 'auto',
-        });
-      };
-
-      featureCards.forEach((card) => {
-        const index = card.getAttribute('data-feature-index');
-        const trigger = {
-          trigger: card,
-          start: 'top 65%',
-          end: 'bottom 40%',
-          toggleActions: 'play reverse play reverse',
-        };
-
-        if (index === '0') {
-          // FR-02: Outline drawing & dimension line pulse
-          ScrollTrigger.create({
-            ...trigger,
-            onEnter: () => {
-              resetHighlights();
-              gsap.to(outlineGroup, { opacity: 1, duration: 0.3 });
-              gsap.to(dimGroup, { opacity: 1, duration: 0.3 });
-              // Quick DrawSVG re-trace effect on the outline
-              const outlineRect = svg.querySelector('[data-drawsvg="outline"]') as SVGGeometryElement;
-              if (outlineRect) {
-                const len = parseFloat(outlineRect.getAttribute('data-length') || '260');
-                gsap.fromTo(outlineRect, 
-                  { strokeDashoffset: len }, 
-                  { strokeDashoffset: 0, duration: 0.8, ease: 'power2.out' }
-                );
-              }
-              if (statusText) statusText.textContent = lang === 'zh' ? 'FR-02 块体外廓 65×65mm 基准锁定' : 'FR-02 STOCK BOUNDS 65×65mm LOCKED';
-            },
-            onEnterBack: () => {
-              resetHighlights();
-              gsap.to(outlineGroup, { opacity: 1, duration: 0.3 });
-              gsap.to(dimGroup, { opacity: 1, duration: 0.3 });
-            },
-          });
-        } else if (index === '1') {
-          // FR-04: CV Stepped concentric rings DrawSVG spin-in
-          ScrollTrigger.create({
-            ...trigger,
-            onEnter: () => {
-              resetHighlights();
-              gsap.to(cvGroup, { opacity: 1, duration: 0.3 });
-              gsap.to(cvRings, {
-                fill: '#dceeb1', // block-lime
-                stagger: 0.1,
-                duration: 0.4,
-              });
-              const cvCircles = svg.querySelectorAll<SVGGeometryElement>('[data-drawsvg="cv"]');
-              cvCircles.forEach((circle) => {
-                const len = parseFloat(circle.getAttribute('data-length') || '100');
-                gsap.fromTo(circle, 
-                  { strokeDashoffset: len }, 
-                  { strokeDashoffset: 0, duration: 0.7, ease: 'power2.out', stagger: 0.1 }
-                );
-              });
-              if (statusText) statusText.textContent = lang === 'zh' ? 'FR-04 核心阀孔 CV ⌀32/25/16 阶梯切削' : 'FR-04 CORE CAVITY CV ⌀32/25/16 CSG CUT';
-            },
-            onEnterBack: () => {
-              resetHighlights();
-              gsap.to(cvGroup, { opacity: 1, duration: 0.3 });
-              gsap.to(cvRings, { fill: '#dceeb1', duration: 0.3 });
-            },
-          });
-        } else if (index === '2') {
-          // FR-03: Pilot Channels continuous flow dash
-          ScrollTrigger.create({
-            ...trigger,
-            onEnter: () => {
-              resetHighlights();
-              gsap.to(pilotGroup, { opacity: 1, duration: 0.3 });
-              gsap.to(pilotLines, {
-                opacity: 1,
-                stroke: '#0284c7',
-                strokeDashoffset: 24,
-                duration: 0.6,
-                repeat: -1,
-                ease: 'none',
-              });
-              if (statusText) statusText.textContent = lang === 'zh' ? 'FR-03 先导油口 X/Y/Z1/Z2 连通拓扑构建' : 'FR-03 PILOT PORTS X/Y/Z1/Z2 ROUTED';
-            },
-            onEnterBack: () => {
-              resetHighlights();
-              gsap.to(pilotGroup, { opacity: 1, duration: 0.3 });
-            },
-          });
-        } else if (index === '3') {
-          // FR-05: Bolt safety zones DrawSVG trace
-          ScrollTrigger.create({
-            ...trigger,
-            onEnter: () => {
-              resetHighlights();
-              gsap.to(boltGroup, { opacity: 1, duration: 0.3 });
-              gsap.to(boltZones, {
-                fill: 'rgba(252, 211, 77, 0.25)', // amber
-                stroke: '#f59e0b',
-                strokeWidth: 0.8,
-                duration: 0.4,
-              });
-              const boltCircles = svg.querySelectorAll<SVGGeometryElement>('[data-drawsvg="bolts"]');
-              boltCircles.forEach((circle) => {
-                const len = parseFloat(circle.getAttribute('data-length') || '30');
-                gsap.fromTo(circle,
-                  { strokeDashoffset: len },
-                  { strokeDashoffset: 0, duration: 0.6, ease: 'power2.out', stagger: 0.05 }
-                );
-              });
-              if (statusText) statusText.textContent = lang === 'zh' ? 'FR-05 螺栓孔 BH1-BH4 壁厚与干涉检查 PASS' : 'FR-05 WALL THICKNESS & CLEARANCE CHECK PASS';
-            },
-            onEnterBack: () => {
-              resetHighlights();
-              gsap.to(boltGroup, { opacity: 1, duration: 0.3 });
-            },
-          });
-        } else if (index === '4') {
-          // FR-09: Complete BRep topology loop
-          ScrollTrigger.create({
-            ...trigger,
-            onEnter: () => {
-              gsap.to([outlineGroup, cvGroup, pilotGroup, boltGroup, dimGroup], {
-                opacity: 1,
-                duration: 0.5,
-              });
-              gsap.to(cvRings, { fill: '#c8e6cd', duration: 0.4 }); // block-mint
-              gsap.to(boltZones, { fill: 'rgba(200, 230, 205, 0.4)', stroke: '#10b981', duration: 0.4 });
-              if (statusText) statusText.textContent = lang === 'zh' ? 'FR-09 BRep 实体流形闭环 · STEP 导出就绪' : 'FR-09 BREP SOLID TOPOLOGY · STEP EXPORT READY';
-            },
-            onEnterBack: () => {
-              gsap.to([outlineGroup, cvGroup, pilotGroup, boltGroup, dimGroup], {
-                opacity: 1,
-                duration: 0.4,
-              });
-            },
-          });
-        }
-      });
 
     }, containerRef);
 

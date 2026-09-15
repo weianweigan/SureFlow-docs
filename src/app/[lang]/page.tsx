@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { type Locale, DICTIONARY } from '@/lib/i18n';
-import { ModelViewer } from '@/components/model-viewer';
 import {
   ArrowRight,
   ExternalLink,
@@ -25,66 +24,52 @@ export default async function HomePage({ params }: HomePageProps) {
       {/* 极简工程背景网格 */}
       <div className="fixed inset-0 pointer-events-none opacity-30 [background-image:linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] [background-size:32px_32px]" />
 
-      {/* 1. 精简 Hero 区域：克制精确的大标题 + 极简单句描述 + 3D 阀块交互视口 */}
-      <section className="relative z-10 mx-auto max-w-7xl px-4 pt-16 pb-16 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* 左侧文字与操作区 */}
-          <div className="lg:col-span-6 space-y-6 text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-white/90 backdrop-blur-sm text-neutral-800 text-xs font-mono font-medium border border-hairline shadow-2xs">
-              <span className="h-2 w-2 rounded-full bg-semantic-success animate-pulse" />
-              <span>{t.hero.tag}</span>
-            </div>
-
-            <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-bold text-ink tracking-tightest leading-[1.1]">
-              {t.hero.title}
-            </h1>
-
-            <p className="text-base sm:text-lg text-neutral-600 max-w-lg leading-relaxed font-light">
-              {t.hero.description}
-            </p>
-
-            {/* 主操作对：文档与 GitHub */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-1">
-              <Link
-                href={`/${lang}/docs`}
-                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-semibold text-white bg-ink hover:bg-neutral-800 rounded-pill transition shadow-sm"
-              >
-                <span>{t.hero.primaryAction}</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-              <a
-                href="https://github.com/weianweigan/SureFlow"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-ink bg-white/90 hover:bg-white border border-hairline rounded-pill transition shadow-2xs"
-              >
-                <span>{t.hero.secondaryAction}</span>
-                <ExternalLink className="h-4 w-4" />
-              </a>
-            </div>
-
-            {/* 极简规范徽标行 (替代原本繁琐的多栏表格) */}
-            <div className="flex flex-wrap items-center gap-2 pt-4 border-t border-hairline/80">
-              {t.hero.badges.map((badge, idx) => (
-                <span
-                  key={idx}
-                  className="px-2.5 py-1 rounded-md bg-surface-soft/80 border border-hairline text-neutral-700 font-mono text-xs font-medium"
-                >
-                  {badge}
-                </span>
-              ))}
-            </div>
+      {/* 1. 精简 Hero 区域：居中大气排版，移除 Web 3D 视口卡片 */}
+      <section className="relative z-10 mx-auto max-w-5xl px-4 pt-20 pb-16 sm:px-6 lg:px-8 text-center">
+        <div className="flex flex-col items-center space-y-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-white/90 backdrop-blur-sm text-neutral-800 text-xs font-mono font-medium border border-hairline shadow-2xs">
+            <span className="h-2 w-2 rounded-full bg-semantic-success animate-pulse" />
+            <span>{t.hero.tag}</span>
           </div>
 
-          {/* 右侧 3D 阀块交互视口 */}
-          <div className="lg:col-span-6">
-            <div className="rounded-2xl border border-hairline/80 bg-white/80 backdrop-blur-md p-3 shadow-sm">
-              <ModelViewer
-                src="/models/hydraulic-block.glb"
-                alt="SureFlow Hydraulic Manifold 3D Demo"
-                className="h-[460px] w-full rounded-xl overflow-hidden"
-              />
-            </div>
+          <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-bold text-ink tracking-tightest leading-[1.12] max-w-3xl">
+            {t.hero.title}
+          </h1>
+
+          <p className="text-base sm:text-lg text-neutral-600 max-w-2xl leading-relaxed font-light">
+            {t.hero.description}
+          </p>
+
+          {/* 主操作入口：文档与 GitHub */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <Link
+              href={`/${lang}/docs`}
+              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-semibold text-white bg-ink hover:bg-neutral-800 rounded-pill transition shadow-sm"
+            >
+              <span>{t.hero.primaryAction}</span>
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <a
+              href="https://github.com/weianweigan/SureFlow"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-ink bg-white/90 hover:bg-white border border-hairline rounded-pill transition shadow-2xs"
+            >
+              <span>{t.hero.secondaryAction}</span>
+              <ExternalLink className="h-4 w-4" />
+            </a>
+          </div>
+
+          {/* 极简规范徽标行 */}
+          <div className="flex flex-wrap items-center justify-center gap-2 pt-4 border-t border-hairline/80 max-w-xl">
+            {t.hero.badges.map((badge, idx) => (
+              <span
+                key={idx}
+                className="px-2.5 py-1 rounded-md bg-surface-soft/80 border border-hairline text-neutral-700 font-mono text-xs font-medium"
+              >
+                {badge}
+              </span>
+            ))}
           </div>
         </div>
       </section>

@@ -4,13 +4,10 @@ import { type Locale, DICTIONARY } from '@/lib/i18n';
 import { DownloadButton } from '@/components/download-button';
 import { ModelViewer } from '@/components/model-viewer';
 import {
-  Cpu,
-  ShieldCheck,
-  FileCode2,
   Zap,
   ArrowRight,
-  Boxes,
   ExternalLink,
+  Laptop,
 } from 'lucide-react';
 
 interface HomePageProps {
@@ -25,7 +22,7 @@ export default async function HomePage({ params }: HomePageProps) {
   return (
     <div className="relative bg-canvas text-ink">
       {/* 1. Hero 区域：纯白画布 + 超大负字距标题 + 3D 视口 */}
-      <section className="mx-auto max-w-7xl px-4 pt-16 pb-20 sm:px-6 lg:px-8">
+      <section className="mx-auto max-w-7xl px-4 pt-16 pb-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* 左侧文字排版 */}
           <div className="lg:col-span-6 space-y-6 text-left">
@@ -95,7 +92,29 @@ export default async function HomePage({ params }: HomePageProps) {
         </div>
       </section>
 
-      {/* 2. 大色块板块：Block Lime（青柠绿系统能力大面板） */}
+      {/* 2. 软件实机工作台截图展示 (UI Mockup) */}
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="rounded-lg border border-hairline bg-surface-soft p-4 sm:p-6 shadow-sm space-y-3">
+          <div className="flex items-center justify-between px-2 text-xs font-mono text-neutral-600">
+            <div className="flex items-center gap-2">
+              <span className="h-2.5 w-2.5 rounded-full bg-red-400 inline-block" />
+              <span className="h-2.5 w-2.5 rounded-full bg-amber-400 inline-block" />
+              <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 inline-block" />
+              <span className="ml-2 font-medium text-ink">SureFlow Studio • 工作台实机三维布孔视图</span>
+            </div>
+            <span className="hidden sm:inline">高精几何内核渲染中</span>
+          </div>
+          <div className="overflow-hidden rounded-md border border-hairline bg-canvas">
+            <img
+              src="/images/ui-screenshot.png"
+              alt="SureFlow Studio Real Interface Screenshot"
+              className="w-full h-auto object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* 3. 大色块板块：Block Lime（青柠绿系统能力大面板） */}
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         <div className="bg-block-lime rounded-lg p-8 sm:p-14 text-ink space-y-12">
           <div className="max-w-3xl space-y-3">
@@ -112,11 +131,11 @@ export default async function HomePage({ params }: HomePageProps) {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {t.featuresPage.list.map((feat, idx) => {
-              const icons = [
-                <Cpu key="0" className="h-6 w-6 text-ink" />,
-                <ShieldCheck key="1" className="h-6 w-6 text-ink" />,
-                <FileCode2 key="2" className="h-6 w-6 text-ink" />,
-                <Boxes key="3" className="h-6 w-6 text-ink" />,
+              const iconPaths = [
+                '/icons/Block.svg',
+                '/icons/DrillHole.svg',
+                '/icons/CartridgeValve.svg',
+                '/icons/ImportStep.svg',
               ];
 
               return (
@@ -125,8 +144,8 @@ export default async function HomePage({ params }: HomePageProps) {
                   className="bg-canvas rounded-md p-6 border border-black/10 space-y-3 shadow-xs hover:border-black transition"
                 >
                   <div className="flex items-center justify-between">
-                    <div className="p-2.5 rounded-full bg-surface-soft text-ink">
-                      {icons[idx]}
+                    <div className="p-2 rounded-md bg-surface-soft flex items-center justify-center h-10 w-10">
+                      <img src={iconPaths[idx]} alt={feat.title} className="h-6 w-6 object-contain" />
                     </div>
                     <span className="text-[10px] font-mono uppercase font-semibold px-2 py-0.5 rounded bg-surface-soft text-ink">
                       {feat.tag}
@@ -145,7 +164,7 @@ export default async function HomePage({ params }: HomePageProps) {
         </div>
       </section>
 
-      {/* 3. 经典暖调大色块：Block Cream / Lilac（工程对比案例） */}
+      {/* 4. 经典暖调大色块：Block Cream / Lilac（工程对比案例） */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
@@ -200,7 +219,7 @@ export default async function HomePage({ params }: HomePageProps) {
         </div>
       </section>
 
-      {/* 4. 底部行动号召 (CTA)：Surface Soft 大底板 + Pill 胶囊主按钮 */}
+      {/* 5. 底部行动号召 (CTA)：Surface Soft 大底板 + Pill 胶囊主按钮 */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="rounded-lg bg-surface-soft p-10 sm:p-16 border border-hairline text-center space-y-6">
           <div className="max-w-2xl mx-auto space-y-4">

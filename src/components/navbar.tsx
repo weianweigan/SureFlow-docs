@@ -2,9 +2,10 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { type Locale, DICTIONARY } from '@/lib/i18n';
-import { Box, Github, Globe, Download } from 'lucide-react';
+import { Github, Globe, Download } from 'lucide-react';
 
 interface NavbarProps {
   lang: Locale;
@@ -33,10 +34,10 @@ export const Navbar: React.FC<NavbarProps> = ({ lang }) => {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-hairline bg-canvas/90 backdrop-blur-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        {/* Brand */}
+        {/* Official Brand Logo */}
         <Link href={`/${lang}`} className="flex items-center gap-3 group">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-ink text-white transition-transform group-hover:scale-105">
-            <Box className="h-5 w-5" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-md bg-canvas border border-hairline overflow-hidden p-0.5 shadow-xs transition-transform group-hover:scale-105">
+            <img src="/logo.svg" alt="SureFlow Logo" className="h-full w-full object-contain" />
           </div>
           <div className="flex items-center gap-2">
             <span className="text-xl font-bold tracking-tight text-ink">

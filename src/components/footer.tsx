@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { type Locale, DICTIONARY } from '@/lib/i18n';
-import { Box, Github } from 'lucide-react';
+import { Github } from 'lucide-react';
 
 interface FooterProps {
   lang: Locale;
@@ -17,12 +17,12 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
           {/* Logo & Tagline */}
           <div className="space-y-4 md:col-span-2">
             <div className="flex items-center gap-3">
-              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink text-white">
-                <Box className="h-5 w-5" />
+              <div className="flex h-9 w-9 items-center justify-center rounded-md bg-canvas border border-hairline overflow-hidden p-0.5 shadow-xs">
+                <img src="/logo.svg" alt="SureFlow Logo" className="h-full w-full object-contain" />
               </div>
               <span className="text-2xl font-bold tracking-tight text-ink">SureFlow</span>
             </div>
-            <p className="text-neutral-700 max-w-sm text-sm leading-relaxed">
+            <p className="text-neutral-700 max-w-sm text-sm leading-relaxed font-light">
               {t.footer.tagline}
             </p>
             <div className="flex items-center gap-3 pt-2">

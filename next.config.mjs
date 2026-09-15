@@ -16,6 +16,7 @@ const nextConfig = {
   },
   reactStrictMode: true,
   outputFileTracingRoot: __dirname,
+  transpilePackages: ['lucide-react'],
 };
 
 export default withMDX(nextConfig);

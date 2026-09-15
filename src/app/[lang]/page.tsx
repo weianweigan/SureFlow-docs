@@ -47,26 +47,20 @@ export default async function HomePage({ params }: HomePageProps) {
               {t.hero.description}
             </p>
 
-            {/* 主操作对：文档、DG16 引导演示与源码 */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 pt-2">
-              <Link
-                href={`/${lang}/dg16-guide`}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-white bg-blue-600 hover:bg-blue-700 rounded-pill transition shadow-sm"
-              >
-                <span>{lang === 'zh' ? 'DG16 孔位引导演示' : 'DG16 Cavity Guide Demo'}</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+            {/* 主操作对：文档与源码 */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
               <Link
                 href={`/${lang}/docs`}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-ink bg-white/90 hover:bg-white border border-hairline rounded-pill transition shadow-2xs"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-semibold text-white bg-ink hover:bg-neutral-800 rounded-pill transition shadow-sm"
               >
                 <span>{lang === 'zh' ? '探索设计文档' : 'Explore Documentation'}</span>
+                <ArrowRight className="h-4 w-4" />
               </Link>
               <a
                 href="https://github.com/weianweigan/SureFlow"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 px-5 py-3.5 text-sm font-semibold text-neutral-700 bg-transparent hover:bg-surface-soft rounded-pill transition"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-ink bg-white/90 hover:bg-white border border-hairline rounded-pill transition shadow-2xs"
               >
                 <span>GitHub</span>
                 <ExternalLink className="h-4 w-4" />

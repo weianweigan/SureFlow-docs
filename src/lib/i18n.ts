@@ -8,7 +8,6 @@ export const DICTIONARY = {
     nav: {
       brand: 'SureFlow',
       docs: '使用文档',
-      dg16Guide: 'DG16 孔位引导',
       download: '下载客户端',
       openSource: '开源生态',
       github: 'GitHub',
@@ -124,7 +123,6 @@ export const DICTIONARY = {
     nav: {
       brand: 'SureFlow',
       docs: 'Documentation',
-      dg16Guide: 'DG16 Guide',
       download: 'Download',
       openSource: 'Open Source',
       github: 'GitHub',

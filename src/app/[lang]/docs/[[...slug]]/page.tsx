@@ -5,6 +5,7 @@ import { type Locale, LOCALES } from '@/lib/i18n';
 import { getDocContent } from '@/lib/mdx';
 import { DOC_NAVIGATION } from '@/lib/docs-data';
 import { ChevronRight, ArrowLeft, ArrowRight, Bookmark, Hash } from 'lucide-react';
+import { marked } from 'marked';
 
 interface DocPageProps {
   params: Promise<{
@@ -70,9 +71,10 @@ export default async function DocPage({ params }: DocPageProps) {
         </div>
 
         {/* 渲染正文 Markdown */}
-        <div className="max-w-none text-ink">
-          <MarkdownRenderer content={doc.content} />
-        </div>
+        <div
+          className="markdown-body max-w-none text-ink"
+          dangerouslySetInnerHTML={{ __html: renderMarkdown(doc.content) }}
+        />
 
         {/* 上一篇 / 下一篇翻页卡片 */}
         <div className="mt-16 pt-8 border-t border-hairline grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -138,152 +140,34 @@ export default async function DocPage({ params }: DocPageProps) {
   );
 }
 
-// 渲染 Markdown 文本
-function MarkdownRenderer({ content }: { content: string }) {
-  const blocks = content.split('\n\n');
+// 借助 marked 高精度解析 Markdown，完整支持 **加粗**、链接、行内代码、列表、表格与提示块
+function renderMarkdown(content: string): string {
+  const renderer = new marked.Renderer();
 
-  return (
-    <div className="space-y-5">
-      {blocks.map((block, idx) => {
-        const trimmed = block.trim();
-        if (!trimmed) return null;
+  renderer.heading = ({ text, depth }) => {
+    const id = text
+      .toLowerCase()
+      .replace(/<[^>]+>/g, '')
+      .replace(/[^\w\u4e00-\u9fa5]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+    return `<h${depth} id="${id}"><a href="#${id}">${text}</a></h${depth}>\n`;
+  };
 
-        // 标题 H2
-        if (trimmed.startsWith('## ')) {
-          const text = trimmed.replace(/^##\s+/, '');
-          const id = text
-            .toLowerCase()
-            .replace(/[^\w\u4e00-\u9fa5]+/g, '-')
-            .replace(/^-+|-+$/g, '');
-          return (
-            <h2 key={idx} id={id} className="text-2xl font-bold text-ink pt-8 pb-2 border-b border-hairline flex items-center gap-2 group">
-              <a href={`#${id}`} className="hover:underline flex items-center gap-2">
-                <span>{text}</span>
-                <Hash className="h-4 w-4 opacity-0 group-hover:opacity-100 text-neutral-400 transition" />
-              </a>
-            </h2>
-          );
-        }
+  renderer.blockquote = ({ text }) => {
+    if (text.includes('[!NOTE]')) {
+      const clean = text.replace(/\[!NOTE\]\s*/g, '');
+      return `<blockquote class="callout-note"><strong>注意 (Note):</strong><br/>${clean}</blockquote>`;
+    }
+    if (text.includes('[!TIP]')) {
+      const clean = text.replace(/\[!TIP\]\s*/g, '');
+      return `<blockquote class="callout-tip"><strong>提示 (Tip):</strong><br/>${clean}</blockquote>`;
+    }
+    if (text.includes('[!WARNING]')) {
+      const clean = text.replace(/\[!WARNING\]\s*/g, '');
+      return `<blockquote class="callout-warning"><strong>警告 (Warning):</strong><br/>${clean}</blockquote>`;
+    }
+    return `<blockquote>${text}</blockquote>`;
+  };
 
-        // 标题 H3
-        if (trimmed.startsWith('### ')) {
-          const text = trimmed.replace(/^###\s+/, '');
-          const id = text
-            .toLowerCase()
-            .replace(/[^\w\u4e00-\u9fa5]+/g, '-')
-            .replace(/^-+|-+$/g, '');
-          return (
-            <h3 key={idx} id={id} className="text-lg font-bold text-ink pt-4 pb-1">
-              {text}
-            </h3>
-          );
-        }
-
-        // 代码块 ```
-        if (trimmed.startsWith('```')) {
-          const lines = trimmed.split('\n');
-          const langTag = lines[0].replace('```', '').trim();
-          const codeBody = lines.slice(1, -1).join('\n');
-          return (
-            <div key={idx} className="rounded-lg overflow-hidden border border-hairline bg-surface-soft my-5">
-              {langTag && (
-                <div className="px-4 py-1.5 bg-neutral-200 border-b border-hairline text-[11px] font-mono text-neutral-700 font-semibold">
-                  {langTag}
-                </div>
-              )}
-              <pre className="p-4 text-xs font-mono text-ink overflow-x-auto leading-relaxed">
-                <code>{codeBody}</code>
-              </pre>
-            </div>
-          );
-        }
-
-        // 引用提示块 > [!NOTE] 等 (使用 Block Lime 色块)
-        if (trimmed.startsWith('>')) {
-          return (
-            <blockquote
-              key={idx}
-              className="p-4 rounded-lg border-l-4 border-ink bg-block-lime/60 text-ink text-sm my-4 font-normal"
-            >
-              {trimmed
-                .split('\n')
-                .map((l) => l.replace(/^>\s*/, ''))
-                .join(' ')}
-            </blockquote>
-          );
-        }
-
-        // 无序列表 -
-        if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
-          const items = trimmed.split('\n').filter((l) => l.startsWith('- ') || l.startsWith('* '));
-          return (
-            <ul key={idx} className="list-disc list-inside space-y-1.5 text-neutral-800 text-sm font-light">
-              {items.map((item, ii) => (
-                <li key={ii} className="leading-relaxed">
-                  {item.replace(/^[-*]\s+/, '')}
-                </li>
-              ))}
-            </ul>
-          );
-        }
-
-        // 有序列表 1. 2.
-        if (/^\d+\.\s/.test(trimmed)) {
-          const items = trimmed.split('\n').filter((l) => /^\d+\.\s/.test(l));
-          return (
-            <ol key={idx} className="list-decimal list-inside space-y-1.5 text-neutral-800 text-sm font-light">
-              {items.map((item, ii) => (
-                <li key={ii} className="leading-relaxed">
-                  {item.replace(/^\d+\.\s+/, '')}
-                </li>
-              ))}
-            </ol>
-          );
-        }
-
-        // 表格 |
-        if (trimmed.startsWith('|')) {
-          const rows = trimmed.split('\n').filter((r) => r.trim().startsWith('|'));
-          if (rows.length >= 2) {
-            const headerCells = rows[0].split('|').filter(Boolean).map((c) => c.trim());
-            const bodyRows = rows.slice(2).map((r) => r.split('|').filter(Boolean).map((c) => c.trim()));
-
-            return (
-              <div key={idx} className="overflow-x-auto my-5 border border-hairline rounded-lg">
-                <table className="w-full text-xs text-left text-neutral-800">
-                  <thead className="bg-surface-soft border-b border-hairline text-ink font-semibold">
-                    <tr>
-                      {headerCells.map((h, hi) => (
-                        <th key={hi} className="p-3">
-                          {h}
-                        </th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-hairline-soft">
-                    {bodyRows.map((row, ri) => (
-                      <tr key={ri} className="hover:bg-neutral-50 font-light">
-                        {row.map((cell, ci) => (
-                          <td key={ci} className="p-3">
-                            {cell}
-                          </td>
-                        ))}
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            );
-          }
-        }
-
-        // 普通段落
-        return (
-          <p key={idx} className="text-neutral-800 text-base leading-relaxed font-light">
-            {trimmed}
-          </p>
-        );
-      })}
-    </div>
-  );
+  return marked.parse(content, { renderer, gfm: true, breaks: false }) as string;
 }

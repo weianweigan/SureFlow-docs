@@ -3,11 +3,10 @@ import Link from 'next/link';
 import { type Locale, DICTIONARY } from '@/lib/i18n';
 import { DownloadButton } from '@/components/download-button';
 import { ModelViewer } from '@/components/model-viewer';
-import { DG16Guide } from '@/components/dg16-guide';
+import { FeatureShowcase } from '@/components/dg16-guide';
 import {
   ArrowRight,
   ExternalLink,
-  Layers,
   CheckCircle2,
 } from 'lucide-react';
 
@@ -95,7 +94,7 @@ export default async function HomePage({ params }: HomePageProps) {
         </div>
       </section>
 
-      {/* 2. 主设计工作台实机三维布孔视口展示 (resources/main-ui) */}
+      {/* 2. 主设计工作台实机三维布孔视口展示 */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 border-t border-hairline-soft">
         <div className="space-y-6">
           <div className="max-w-3xl space-y-2">
@@ -132,29 +131,10 @@ export default async function HomePage({ params }: HomePageProps) {
         </div>
       </section>
 
-      {/* 3. 卡片式滚动导引：以 library.sflib 中标准的 DG16 安装面与孔腔为导引 */}
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="space-y-6">
-          <div className="max-w-2xl space-y-2">
-            <span className="font-mono text-xs uppercase tracking-wider text-neutral-500 font-semibold">
-              {lang === 'zh' ? '交互式孔腔导引 / SFLIB SCHEMA' : 'INTERACTIVE CAVITY GUIDE / SFLIB'}
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink">
-              {lang === 'zh' ? '卡片式孔腔装配与油路导引' : 'Card-based Cavity Architecture'}
-            </h2>
-            <p className="text-sm sm:text-base text-neutral-700 leading-relaxed font-light">
-              {lang === 'zh'
-                ? '以内置标准库 DG16 二通插装阀（DIN ISO 7368）为例，滚动浏览各阶段孔腔几何、先导油路映射与最小壁厚干涉检测。'
-                : 'Guided walkthrough of standard 2-way cartridge valve DG16 (DIN ISO 7368), linking cavity geometry, pilot routing, and interference checks.'}
-            </p>
-          </div>
+      {/* 3. GSAP 驱动的 DG16 导引式功能特性卡片 */}
+      <FeatureShowcase lang={lang} />
 
-          {/* 交互式图纸与滚动卡片组件 */}
-          <DG16Guide lang={lang} />
-        </div>
-      </section>
-
-      {/* 4. Block Cream 大色块：孔腔库管理与剖面编辑展示 (resources/cavity-library) */}
+      {/* 4. Block Cream 大色块：孔腔库管理与剖面编辑展示 */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
         <div className="bg-block-cream rounded-lg p-8 sm:p-14 text-ink space-y-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
@@ -173,15 +153,15 @@ export default async function HomePage({ params }: HomePageProps) {
               <ul className="space-y-2.5 pt-2 text-xs text-neutral-800">
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-ink shrink-0" />
-                  <span>螺纹插装阀孔与 ISO 4401 板式阀标准模板</span>
+                  <span>{lang === 'zh' ? '螺纹插装阀孔与 ISO 4401 板式阀标准模板' : 'Cartridge valve & ISO 4401 subplate templates'}</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-ink shrink-0" />
-                  <span>分段阶梯孔深度、锥角与倒角参数实时校验</span>
+                  <span>{lang === 'zh' ? '分段阶梯孔深度、锥角与倒角参数实时校验' : 'Step bore depth, taper angle & chamfer live validation'}</span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle2 className="h-4 w-4 text-ink shrink-0" />
-                  <span>油口拓扑命名（P / T / A / B）语义化管理</span>
+                  <span>{lang === 'zh' ? '油口拓扑命名（P / T / A / B）语义化管理' : 'P / T / A / B port topology semantic management'}</span>
                 </li>
               </ul>
 
@@ -190,7 +170,7 @@ export default async function HomePage({ params }: HomePageProps) {
                   href={`/${lang}/docs/quick-start`}
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-ink hover:underline"
                 >
-                  <span>查看孔腔库使用指南</span>
+                  <span>{lang === 'zh' ? '查看孔腔库使用指南' : 'View Cavity Library Guide'}</span>
                   <ArrowRight className="h-3.5 w-3.5" />
                 </Link>
               </div>
@@ -201,7 +181,7 @@ export default async function HomePage({ params }: HomePageProps) {
               <div className="rounded-lg border border-black/15 bg-canvas p-3 shadow-xs space-y-2">
                 <div className="flex items-center justify-between px-1 text-[11px] font-mono text-neutral-600">
                   <span>{t.librarySection.caption}</span>
-                  <span>参数化二维截面</span>
+                  <span>{lang === 'zh' ? '参数化二维截面' : 'Parametric 2D Cross-section'}</span>
                 </div>
                 <div className="overflow-hidden rounded-md border border-hairline">
                   <img
@@ -216,7 +196,7 @@ export default async function HomePage({ params }: HomePageProps) {
         </div>
       </section>
 
-      {/* 5. 底部行动号召 (CTA)：Surface Soft 大底板 + 胶囊主按钮 */}
+      {/* 5. 底部行动号召 (CTA) */}
       <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="rounded-lg bg-surface-soft p-10 sm:p-16 border border-hairline text-center space-y-6">
           <div className="max-w-2xl mx-auto space-y-4">
@@ -236,7 +216,7 @@ export default async function HomePage({ params }: HomePageProps) {
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-ink bg-canvas hover:bg-neutral-100 border border-hairline rounded-pill transition"
               >
-                <span>GitHub 源码仓库</span>
+                <span>{lang === 'zh' ? 'GitHub 源码仓库' : 'GitHub Source'}</span>
                 <ExternalLink className="h-4 w-4" />
               </a>
             </div>

@@ -16,7 +16,7 @@ const nextConfig = {
   },
   reactStrictMode: true,
   outputFileTracingRoot: __dirname,
-  transpilePackages: ['lucide-react'],
+  transpilePackages: ['lucide-react', 'gsap'],
 };
 
 export default withMDX(nextConfig);

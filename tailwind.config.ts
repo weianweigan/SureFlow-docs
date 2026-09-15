@@ -8,47 +8,39 @@ const config: Config = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
     './content/**/*.{js,ts,jsx,tsx,mdx}',
-    './node_modules/fumadocs-ui/dist/**/*.js',
   ],
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: '#f0f9ff',
-          100: '#e0f2fe',
-          200: '#bae6fd',
-          300: '#7dd3fc',
-          400: '#38bdf8',
-          500: '#0284c7',
-          600: '#0369a1',
-          700: '#075985',
-          800: '#0c4a6e',
-          900: '#082f49',
-          accent: '#06b6d4',
-        },
-        slate: {
-          850: '#151f32',
-          950: '#0b0f19',
-        }
+        ink: '#000000',
+        canvas: '#ffffff',
+        'inverse-canvas': '#000000',
+        'inverse-ink': '#ffffff',
+        hairline: '#D1D1D1',
+        'hairline-soft': '#f1f1f1',
+        'surface-soft': '#E9E9E9',
+        'block-lime': '#dceeb1',
+        'block-lilac': '#c5b0f4',
+        'block-cream': '#f4ecd6',
+        'block-pink': '#efd4d4',
+        'block-mint': '#c8e6cd',
+        'block-coral': '#f3c9b6',
+        'block-navy': '#1f1d3d',
+        'accent-magenta': '#ff3d8b',
+        'semantic-success': '#1ea64a',
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+        sans: ['figmaSans', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        mono: ['figmaMono', 'JetBrains Mono', 'Menlo', 'monospace'],
       },
-      animation: {
-        'fade-in': 'fadeIn 0.5s ease-out forwards',
-        'pulse-subtle': 'pulseSubtle 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      borderRadius: {
+        xs: '2px',
+        sm: '6px',
+        md: '8px',
+        lg: '24px',
+        xl: '32px',
+        pill: '50px',
       },
-      keyframes: {
-        fadeIn: {
-          '0%': { opacity: '0', transform: 'translateY(8px)' },
-          '100%': { opacity: '1', transform: 'translateY(0)' },
-        },
-        pulseSubtle: {
-          '0%, 100%': { opacity: '1' },
-          '50%': { opacity: '0.8' },
-        }
-      }
     },
   },
   plugins: [typography],

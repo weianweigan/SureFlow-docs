@@ -23,36 +23,32 @@ export default async function HomePage({ params }: HomePageProps) {
   const t = DICTIONARY[lang];
 
   return (
-    <div className="relative overflow-hidden">
-      {/* 顶部环境光晕 */}
-      <div className="pointer-events-none absolute -top-40 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-sky-500/10 blur-[130px] rounded-full" />
-      <div className="pointer-events-none absolute top-96 -right-40 w-[600px] h-[400px] bg-blue-600/10 blur-[140px] rounded-full" />
-
-      {/* Hero 区域 */}
-      <section className="relative mx-auto max-w-7xl px-4 pt-16 pb-20 sm:px-6 lg:px-8">
+    <div className="relative bg-canvas text-ink">
+      {/* 1. Hero 区域：纯白画布 + 超大负字距标题 + 3D 视口 */}
+      <section className="mx-auto max-w-7xl px-4 pt-16 pb-20 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* 左侧文字与操作 */}
-          <div className="lg:col-span-6 space-y-6 text-center lg:text-left">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-semibold">
+          {/* 左侧文字排版 */}
+          <div className="lg:col-span-6 space-y-6 text-left">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-block-lime text-ink text-xs font-mono font-medium border border-black/10">
               <Zap className="h-3.5 w-3.5" />
               <span>{t.hero.tag}</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.12]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-normal text-ink tracking-tightest leading-[1.05]">
               {t.hero.title}
-              <span className="block gradient-text mt-1">{t.hero.titleHighlight}</span>
+              <span className="block font-bold text-ink mt-2">{t.hero.titleHighlight}</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-slate-300 max-w-xl mx-auto lg:mx-0 leading-relaxed">
+            <p className="text-lg text-neutral-700 max-w-xl leading-relaxed font-light">
               {t.hero.description}
             </p>
 
-            {/* 下载与文档主操作按钮 */}
-            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+            {/* 下载与文档主操作按钮对 */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
               <DownloadButton lang={lang} />
               <Link
                 href={`/${lang}/docs`}
-                className="flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-slate-200 hover:text-white bg-slate-900/80 hover:bg-slate-800 border border-slate-700/80 rounded-xl transition"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-ink bg-surface-soft hover:bg-neutral-300 rounded-pill transition"
               >
                 <span>{t.hero.secondaryAction}</span>
                 <ArrowRight className="h-4 w-4" />
@@ -60,101 +56,109 @@ export default async function HomePage({ params }: HomePageProps) {
             </div>
 
             {/* 核心指标统计 */}
-            <div className="grid grid-cols-3 gap-4 pt-8 border-t border-slate-800/80 max-w-lg mx-auto lg:mx-0">
+            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-hairline max-w-lg">
               <div>
-                <p className="text-2xl sm:text-3xl font-extrabold text-white font-mono">
+                <p className="text-3xl sm:text-4xl font-light text-ink font-mono tracking-tight">
                   {t.hero.stats.cycleReductionVal}
                 </p>
-                <p className="text-xs text-slate-400 mt-1">{t.hero.stats.cycleReduction}</p>
+                <p className="text-xs font-mono text-neutral-500 uppercase mt-1">
+                  {t.hero.stats.cycleReduction}
+                </p>
               </div>
               <div>
-                <p className="text-2xl sm:text-3xl font-extrabold text-sky-400 font-mono">
+                <p className="text-3xl sm:text-4xl font-light text-ink font-mono tracking-tight">
                   {t.hero.stats.accuracyVal}
                 </p>
-                <p className="text-xs text-slate-400 mt-1">{t.hero.stats.accuracy}</p>
+                <p className="text-xs font-mono text-neutral-500 uppercase mt-1">
+                  {t.hero.stats.accuracy}
+                </p>
               </div>
               <div>
-                <p className="text-2xl sm:text-3xl font-extrabold text-cyan-300 font-mono">
+                <p className="text-3xl sm:text-4xl font-light text-ink font-mono tracking-tight">
                   {t.hero.stats.nativeSpeedVal}
                 </p>
-                <p className="text-xs text-slate-400 mt-1">{t.hero.stats.nativeSpeed}</p>
+                <p className="text-xs font-mono text-neutral-500 uppercase mt-1">
+                  {t.hero.stats.nativeSpeed}
+                </p>
               </div>
             </div>
           </div>
 
           {/* 右侧 3D 阀块交互视口 */}
           <div className="lg:col-span-6">
-            <div className="relative">
-              <div className="absolute -inset-1 rounded-3xl bg-gradient-to-r from-sky-500/20 to-blue-600/20 blur-xl opacity-70" />
-              <ModelViewer
-                src="/models/hydraulic-block.glb"
-                alt="SureFlow Hydraulic Manifold 3D Demo"
-                className="relative h-[480px] w-full"
-              />
-            </div>
+            <ModelViewer
+              src="/models/hydraulic-block.glb"
+              alt="SureFlow Hydraulic Manifold 3D Demo"
+              className="h-[480px] w-full"
+            />
           </div>
         </div>
       </section>
 
-      {/* 四大核心能力板块 */}
-      <section className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 border-t border-slate-900">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            {t.featuresPage.title}
-          </h2>
-          <p className="mt-4 text-base text-slate-400">
-            {t.featuresPage.subtitle}
-          </p>
-        </div>
+      {/* 2. 大色块板块：Block Lime（青柠绿系统能力大面板） */}
+      <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <div className="bg-block-lime rounded-lg p-8 sm:p-14 text-ink space-y-12">
+          <div className="max-w-3xl space-y-3">
+            <span className="font-mono text-xs uppercase tracking-wider text-neutral-800 font-semibold">
+              CORE CAPABILITIES • 核心架构
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-ink">
+              {t.featuresPage.title}
+            </h2>
+            <p className="text-base text-neutral-800 leading-relaxed">
+              {t.featuresPage.subtitle}
+            </p>
+          </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {t.featuresPage.list.map((feat, idx) => {
-            const icons = [
-              <Cpu key="0" className="h-6 w-6 text-sky-400" />,
-              <ShieldCheck key="1" className="h-6 w-6 text-emerald-400" />,
-              <FileCode2 key="2" className="h-6 w-6 text-cyan-400" />,
-              <Boxes key="3" className="h-6 w-6 text-blue-400" />,
-            ];
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {t.featuresPage.list.map((feat, idx) => {
+              const icons = [
+                <Cpu key="0" className="h-6 w-6 text-ink" />,
+                <ShieldCheck key="1" className="h-6 w-6 text-ink" />,
+                <FileCode2 key="2" className="h-6 w-6 text-ink" />,
+                <Boxes key="3" className="h-6 w-6 text-ink" />,
+              ];
 
-            return (
-              <div
-                key={feat.id}
-                className="glass-panel p-6 rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-sky-500/5 group"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <div className="p-3 rounded-xl bg-slate-800/80 border border-slate-700/60 group-hover:border-sky-500/40 transition">
-                    {icons[idx]}
+              return (
+                <div
+                  key={feat.id}
+                  className="bg-canvas rounded-md p-6 border border-black/10 space-y-3 shadow-xs hover:border-black transition"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="p-2.5 rounded-full bg-surface-soft text-ink">
+                      {icons[idx]}
+                    </div>
+                    <span className="text-[10px] font-mono uppercase font-semibold px-2 py-0.5 rounded bg-surface-soft text-ink">
+                      {feat.tag}
+                    </span>
                   </div>
-                  <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded bg-slate-800 text-slate-300">
-                    {feat.tag}
-                  </span>
+                  <h3 className="text-base font-bold text-ink">
+                    {feat.title}
+                  </h3>
+                  <p className="text-xs text-neutral-700 leading-relaxed font-light">
+                    {feat.desc}
+                  </p>
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2 group-hover:text-sky-300 transition">
-                  {feat.title}
-                </h3>
-                <p className="text-sm text-slate-400 leading-relaxed">
-                  {feat.desc}
-                </p>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
       </section>
 
-      {/* 典型工程对比案例速览 */}
-      <section className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 border-t border-slate-900">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+      {/* 3. 经典暖调大色块：Block Cream / Lilac（工程对比案例） */}
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
           <div>
-            <span className="text-xs font-mono uppercase tracking-wider text-sky-400 font-semibold">
+            <span className="font-mono text-xs uppercase tracking-wider text-neutral-500 font-semibold">
               INDUSTRIAL BENCHMARK
             </span>
-            <h2 className="text-3xl font-bold tracking-tight text-white mt-1">
+            <h2 className="text-3xl font-bold tracking-tight text-ink mt-1">
               {t.casesPage.title}
             </h2>
           </div>
           <Link
             href={`/${lang}/cases`}
-            className="inline-flex items-center gap-1.5 text-sm font-semibold text-sky-400 hover:text-sky-300"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-ink hover:underline"
           >
             <span>{lang === 'zh' ? '查看全部工程案例' : 'View all case studies'}</span>
             <ArrowRight className="h-4 w-4" />
@@ -163,27 +167,32 @@ export default async function HomePage({ params }: HomePageProps) {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {t.casesPage.items.map((c, i) => (
-            <div key={i} className="glass-panel p-6 rounded-2xl border border-slate-800 space-y-4">
+            <div
+              key={i}
+              className={`p-8 rounded-lg border border-black/10 space-y-4 ${
+                i === 0 ? 'bg-block-cream' : 'bg-block-lilac'
+              }`}
+            >
               <div className="flex items-center justify-between">
-                <h3 className="text-base font-bold text-white">{c.name}</h3>
-                <span className="text-xs font-mono bg-sky-500/10 text-sky-400 px-2 py-0.5 rounded border border-sky-500/20">
+                <h3 className="text-lg font-bold text-ink">{c.name}</h3>
+                <span className="text-xs font-mono font-semibold bg-canvas text-ink px-2.5 py-1 rounded-pill border border-black/10">
                   {c.tag}
                 </span>
               </div>
-              <p className="text-xs font-mono text-slate-400">{c.specs}</p>
+              <p className="text-xs font-mono text-neutral-700">{c.specs}</p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2 text-xs">
-                <div className="bg-red-950/20 border border-red-900/30 p-3 rounded-lg text-slate-300">
-                  <p className="font-semibold text-red-400 mb-1">
+                <div className="bg-canvas/80 border border-black/10 p-3.5 rounded-md text-neutral-800">
+                  <p className="font-semibold text-neutral-600 mb-1">
                     {lang === 'zh' ? '传统人工设计' : 'Traditional'}
                   </p>
-                  <p className="leading-relaxed">{c.before}</p>
+                  <p className="leading-relaxed font-light">{c.before}</p>
                 </div>
-                <div className="bg-emerald-950/20 border border-emerald-900/30 p-3 rounded-lg text-slate-300">
-                  <p className="font-semibold text-emerald-400 mb-1">
+                <div className="bg-canvas border border-ink p-3.5 rounded-md text-ink shadow-xs">
+                  <p className="font-semibold text-ink mb-1">
                     {lang === 'zh' ? 'SureFlow AI 协同' : 'With SureFlow AI'}
                   </p>
-                  <p className="leading-relaxed">{c.after}</p>
+                  <p className="leading-relaxed font-normal">{c.after}</p>
                 </div>
               </div>
             </div>
@@ -191,25 +200,25 @@ export default async function HomePage({ params }: HomePageProps) {
         </div>
       </section>
 
-      {/* 底部 CTA */}
-      <section className="relative mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-slate-900 via-slate-900 to-sky-950 p-8 sm:p-14 border border-sky-500/20 text-center shadow-2xl">
-          <div className="max-w-2xl mx-auto space-y-6">
-            <h2 className="text-3xl sm:text-4xl font-extrabold text-white">
+      {/* 4. 底部行动号召 (CTA)：Surface Soft 大底板 + Pill 胶囊主按钮 */}
+      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="rounded-lg bg-surface-soft p-10 sm:p-16 border border-hairline text-center space-y-6">
+          <div className="max-w-2xl mx-auto space-y-4">
+            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-ink">
               {lang === 'zh' ? '立即开启智能液压流道设计' : 'Ready to Transform Manifold Design?'}
             </h2>
-            <p className="text-base text-slate-300">
+            <p className="text-base text-neutral-700 font-light">
               {lang === 'zh'
                 ? '免费下载 SureFlow 桌面客户端，感受由 AI 驱动的流道无损拓扑与规则极速校验。'
                 : 'Download SureFlow desktop app today and experience AI-assisted channel topology and real-time clearance verification.'}
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
               <DownloadButton lang={lang} />
               <a
                 href="https://github.com/weianweigan/SureFlow"
                 target="_blank"
                 rel="noreferrer"
-                className="flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-800 border border-slate-700 rounded-xl transition"
+                className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-ink bg-canvas hover:bg-neutral-100 border border-hairline rounded-pill transition"
               >
                 <span>GitHub Star</span>
                 <ExternalLink className="h-4 w-4" />

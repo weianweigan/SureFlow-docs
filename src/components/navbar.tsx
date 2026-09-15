@@ -14,7 +14,6 @@ export const Navbar: React.FC<NavbarProps> = ({ lang }) => {
   const t = DICTIONARY[lang];
   const pathname = usePathname();
 
-  // 切换语言时替换路径前缀
   const getSwitchLangPath = (targetLang: Locale) => {
     if (!pathname) return `/${targetLang}`;
     const segments = pathname.split('/').filter(Boolean);
@@ -32,33 +31,35 @@ export const Navbar: React.FC<NavbarProps> = ({ lang }) => {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-800/80 bg-slate-950/80 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b border-hairline bg-canvas/90 backdrop-blur-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand */}
         <Link href={`/${lang}`} className="flex items-center gap-3 group">
-          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-sky-500 to-blue-600 shadow-md shadow-sky-500/20 group-hover:scale-105 transition-transform">
-            <Box className="h-5 w-5 text-white" />
+          <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-ink text-white transition-transform group-hover:scale-105">
+            <Box className="h-5 w-5" />
           </div>
-          <div className="flex flex-col">
-            <span className="text-lg font-bold tracking-tight text-white flex items-center gap-1.5">
+          <div className="flex items-center gap-2">
+            <span className="text-xl font-bold tracking-tight text-ink">
               SureFlow
-              <span className="text-[10px] uppercase font-semibold px-1.5 py-0.5 rounded bg-sky-500/20 text-sky-300 border border-sky-500/30">
-                CAD
-              </span>
+            </span>
+            <span className="text-[11px] font-mono uppercase font-semibold px-2 py-0.5 rounded-full bg-block-lime text-ink border border-black/10">
+              CAD
             </span>
           </div>
         </Link>
 
-        {/* Nav links */}
-        <nav className="hidden md:flex items-center gap-7 text-sm font-medium">
+        {/* Navigation Links */}
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
           {navLinks.map((link) => {
             const isActive = pathname?.startsWith(link.href);
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`transition-colors hover:text-sky-400 ${
-                  isActive ? 'text-sky-400 font-semibold' : 'text-slate-300'
+                className={`transition-colors py-1 border-b-2 ${
+                  isActive
+                    ? 'border-ink text-ink font-semibold'
+                    : 'border-transparent text-neutral-600 hover:text-ink'
                 }`}
               >
                 {link.label}
@@ -72,10 +73,10 @@ export const Navbar: React.FC<NavbarProps> = ({ lang }) => {
           {/* Language Switch */}
           <Link
             href={getSwitchLangPath(lang === 'zh' ? 'en' : 'zh')}
-            className="flex items-center gap-1.5 px-2.5 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-slate-900 border border-slate-800 rounded-md hover:bg-slate-800 transition"
+            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-mono text-ink bg-surface-soft hover:bg-neutral-300 rounded-pill transition"
             title={lang === 'zh' ? 'Switch to English' : '切换到中文'}
           >
-            <Globe className="h-3.5 w-3.5 text-sky-400" />
+            <Globe className="h-3.5 w-3.5" />
             <span>{lang === 'zh' ? 'EN' : '中文'}</span>
           </Link>
 
@@ -84,18 +85,18 @@ export const Navbar: React.FC<NavbarProps> = ({ lang }) => {
             href="https://github.com/weianweigan/SureFlow"
             target="_blank"
             rel="noreferrer"
-            className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium text-slate-300 hover:text-white bg-slate-900 border border-slate-800 rounded-md hover:bg-slate-800 transition"
+            className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-soft hover:bg-neutral-300 text-ink transition"
+            title="GitHub Repository"
           >
             <Github className="h-4 w-4" />
-            <span className="hidden sm:inline">GitHub</span>
           </a>
 
           {/* Download CTA Button */}
           <Link
             href={`/${lang}/download`}
-            className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-semibold text-white bg-sky-600 hover:bg-sky-500 rounded-md shadow-sm shadow-sky-500/20 transition-all hover:scale-[1.02]"
+            className="hidden sm:flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white bg-ink hover:bg-neutral-800 rounded-pill transition-all duration-150 hover:scale-[1.02]"
           >
-            <Download className="h-3.5 w-3.5" />
+            <Download className="h-4 w-4" />
             <span>{t.nav.download}</span>
           </Link>
         </div>

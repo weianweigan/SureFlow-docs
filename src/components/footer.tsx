@@ -11,17 +11,18 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
   const t = DICTIONARY[lang];
 
   return (
-    <footer className="w-full border-t border-slate-850 bg-slate-950/90 text-slate-400 text-xs py-12">
+    <footer className="w-full border-t border-hairline bg-canvas text-ink py-16">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-10">
-          <div className="space-y-3 md:col-span-2">
-            <div className="flex items-center gap-2.5">
-              <div className="flex h-7 w-7 items-center justify-center rounded-md bg-sky-600 text-white font-bold text-sm">
-                <Box className="h-4 w-4" />
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
+          {/* Logo & Tagline */}
+          <div className="space-y-4 md:col-span-2">
+            <div className="flex items-center gap-3">
+              <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-ink text-white">
+                <Box className="h-5 w-5" />
               </div>
-              <span className="text-base font-bold text-white tracking-tight">SureFlow</span>
+              <span className="text-2xl font-bold tracking-tight text-ink">SureFlow</span>
             </div>
-            <p className="text-slate-400 max-w-sm leading-relaxed">
+            <p className="text-neutral-700 max-w-sm text-sm leading-relaxed">
               {t.footer.tagline}
             </p>
             <div className="flex items-center gap-3 pt-2">
@@ -29,48 +30,51 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
                 href="https://github.com/weianweigan/SureFlow"
                 target="_blank"
                 rel="noreferrer"
-                className="text-slate-400 hover:text-white transition"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-surface-soft hover:bg-neutral-300 text-ink transition"
+                title="GitHub"
               >
-                <Github className="h-5 w-5" />
+                <Github className="h-4 w-4" />
               </a>
             </div>
           </div>
 
+          {/* Links 1 */}
           <div>
-            <h4 className="font-semibold text-slate-200 mb-3 uppercase tracking-wider text-[11px]">
+            <h4 className="font-mono text-xs uppercase tracking-wider text-neutral-500 mb-4 font-semibold">
               {lang === 'zh' ? '产品与资源' : 'Products & Resources'}
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-3 text-sm">
               <li>
-                <Link href={`/${lang}/features`} className="hover:text-sky-400 transition">
+                <Link href={`/${lang}/features`} className="text-ink hover:underline">
                   {t.nav.features}
                 </Link>
               </li>
               <li>
-                <Link href={`/${lang}/cases`} className="hover:text-sky-400 transition">
+                <Link href={`/${lang}/cases`} className="text-ink hover:underline">
                   {t.nav.cases}
                 </Link>
               </li>
               <li>
-                <Link href={`/${lang}/download`} className="hover:text-sky-400 transition">
+                <Link href={`/${lang}/download`} className="text-ink hover:underline">
                   {t.nav.download}
                 </Link>
               </li>
               <li>
-                <Link href={`/${lang}/docs`} className="hover:text-sky-400 transition">
+                <Link href={`/${lang}/docs`} className="text-ink hover:underline">
                   {t.nav.docs}
                 </Link>
               </li>
             </ul>
           </div>
 
+          {/* Links 2 */}
           <div>
-            <h4 className="font-semibold text-slate-200 mb-3 uppercase tracking-wider text-[11px]">
+            <h4 className="font-mono text-xs uppercase tracking-wider text-neutral-500 mb-4 font-semibold">
               {lang === 'zh' ? '开源生态' : 'Ecosystem'}
             </h4>
-            <ul className="space-y-2">
+            <ul className="space-y-3 text-sm">
               <li>
-                <Link href={`/${lang}/open-source`} className="hover:text-sky-400 transition">
+                <Link href={`/${lang}/open-source`} className="text-ink hover:underline">
                   {t.nav.openSource}
                 </Link>
               </li>
@@ -79,7 +83,7 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
                   href="https://github.com/weianweigan/SureFlow"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-sky-400 transition"
+                  className="text-ink hover:underline"
                 >
                   GitHub Repository
                 </a>
@@ -89,7 +93,7 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
                   href="https://github.com/weianweigan/SureFlow/issues"
                   target="_blank"
                   rel="noreferrer"
-                  className="hover:text-sky-400 transition"
+                  className="text-ink hover:underline"
                 >
                   Issues & Feedback
                 </a>
@@ -98,10 +102,10 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
           </div>
         </div>
 
-        <div className="pt-8 border-t border-slate-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500">
+        <div className="pt-8 border-t border-hairline-soft flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-mono text-neutral-500">
           <p>{t.footer.rights}</p>
           <div className="flex items-center gap-6">
-            <span className="text-slate-600">Edge update powered by Cloudflare</span>
+            <span>Edge update powered by Cloudflare</span>
           </div>
         </div>
       </div>

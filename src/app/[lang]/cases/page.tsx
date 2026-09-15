@@ -26,6 +26,7 @@ export default async function CasesPage({ params }: CasesPageProps) {
         lang === 'zh'
           ? '大型锻压机主控阀块传统设计经常出现死角或因斜孔过多导致现场装配打压渗漏。SureFlow 利用多目标拓扑规划，自动将 8 个辅助斜孔重组为直角正交通道，不仅彻底避免干涉，还降低了深孔钻工艺难度。'
           : 'Large forging press manifolds frequently suffer from dead oil zones and high leakage risks due to auxiliary angled holes. SureFlow re-routed internal channels to reduce deep drilling difficulties and pressure loss.',
+      bgClass: 'bg-block-cream',
     },
     {
       title: lang === 'zh' ? '海上风机变桨伺服高集成度控制阀组' : 'Offshore Wind Turbine Pitch Control Manifold',
@@ -40,21 +41,22 @@ export default async function CasesPage({ params }: CasesPageProps) {
         lang === 'zh'
           ? '海上风电对集成块死区清洁度要求极高。SureFlow 的流道光滑过渡相贯线技术避免了油液长期停滞与杂质淤积，有效保护精密电液伺服阀芯。'
           : 'Offshore wind demands zero stagnant cavities to protect delicate electro-hydraulic servo valves. SureFlow smooth transition technology minimized contaminant accumulation.',
+      bgClass: 'bg-block-coral',
     },
   ];
 
   return (
-    <div className="py-16 sm:py-24">
+    <div className="bg-canvas text-ink py-16 sm:py-24">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-16">
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-xs font-semibold">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-surface-soft text-ink text-xs font-mono font-medium">
             <Factory className="h-3.5 w-3.5" />
             <span>{lang === 'zh' ? '工业落地成效' : 'Industrial Impact'}</span>
           </div>
-          <h1 className="text-4xl sm:text-5xl font-extrabold text-white tracking-tight">
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-ink">
             {t.casesPage.title}
           </h1>
-          <p className="text-base sm:text-lg text-slate-400">
+          <p className="text-lg text-neutral-700 font-light">
             {t.casesPage.subtitle}
           </p>
         </div>
@@ -64,33 +66,33 @@ export default async function CasesPage({ params }: CasesPageProps) {
           {fullCases.map((item, idx) => (
             <div
               key={idx}
-              className="glass-panel p-8 sm:p-10 rounded-3xl border border-slate-800 space-y-6 hover:border-sky-500/30 transition"
+              className={`${item.bgClass} p-8 sm:p-12 rounded-lg border border-black/10 space-y-6 shadow-xs`}
             >
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800/80 pb-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-black/10 pb-4">
                 <div>
-                  <span className="text-xs font-mono text-sky-400 font-semibold">{item.category}</span>
-                  <h2 className="text-2xl font-bold text-white mt-0.5">{item.title}</h2>
+                  <span className="text-xs font-mono text-neutral-800 font-semibold uppercase">{item.category}</span>
+                  <h2 className="text-2xl font-bold text-ink mt-0.5">{item.title}</h2>
                 </div>
-                <span className="text-xs font-mono text-slate-400 bg-slate-900 px-3 py-1.5 rounded-lg border border-slate-800">
+                <span className="text-xs font-mono text-ink bg-canvas px-3 py-1.5 rounded-pill border border-black/10">
                   {item.specs}
                 </span>
               </div>
 
-              <p className="text-sm text-slate-300 leading-relaxed max-w-4xl">
+              <p className="text-base text-neutral-800 leading-relaxed font-light max-w-4xl">
                 {item.description}
               </p>
 
               {/* 性能对比卡片 */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
                 {item.metrics.map((m, mi) => (
-                  <div key={mi} className="bg-slate-900/90 border border-slate-800 p-4 rounded-xl space-y-2">
-                    <span className="text-xs text-slate-400 font-medium">{m.label}</span>
+                  <div key={mi} className="bg-canvas border border-black/10 p-5 rounded-md space-y-2 shadow-xs">
+                    <span className="text-xs font-mono text-neutral-500 uppercase">{m.label}</span>
                     <div className="flex items-baseline justify-between">
-                      <span className="text-xs text-slate-500 line-through">{m.before}</span>
-                      <span className="text-lg font-bold font-mono text-emerald-400">{m.after}</span>
+                      <span className="text-xs text-neutral-400 line-through font-mono">{m.before}</span>
+                      <span className="text-xl font-bold font-mono text-ink">{m.after}</span>
                     </div>
-                    <div className="text-[11px] font-mono text-sky-300 bg-sky-500/10 px-2 py-0.5 rounded inline-block">
-                      效益提升：{m.gain}
+                    <div className="text-[11px] font-mono text-neutral-800 bg-surface-soft px-2.5 py-0.5 rounded-full inline-block font-semibold">
+                      效益：{m.gain}
                     </div>
                   </div>
                 ))}

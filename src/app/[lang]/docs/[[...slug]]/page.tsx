@@ -39,54 +39,53 @@ export default async function DocPage({ params }: DocPageProps) {
     notFound();
   }
 
-  // 计算上一篇与下一篇
   const allItems = (DOC_NAVIGATION[lang] || DOC_NAVIGATION.zh).flatMap((cat) => cat.items);
   const currentIndex = allItems.findIndex((it) => it.slug === currentSlug);
   const prevDoc = currentIndex > 0 ? allItems[currentIndex - 1] : null;
   const nextDoc = currentIndex < allItems.length - 1 ? allItems[currentIndex + 1] : null;
 
   return (
-    <div className="grid grid-cols-1 xl:grid-cols-12 gap-8 items-start">
+    <div className="grid grid-cols-1 xl:grid-cols-12 gap-10 items-start bg-canvas text-ink">
       {/* 中间正文 */}
       <article className="xl:col-span-9 min-w-0">
         {/* 面包屑 */}
-        <div className="flex items-center gap-2 text-xs text-slate-500 mb-6 font-mono">
-          <Link href={`/${lang}/docs`} className="hover:text-slate-300 transition">
+        <div className="flex items-center gap-2 text-xs text-neutral-500 mb-6 font-mono">
+          <Link href={`/${lang}/docs`} className="hover:text-ink transition">
             Docs
           </Link>
           <ChevronRight className="h-3 w-3" />
-          <span className="text-sky-400 font-semibold">{doc.title}</span>
+          <span className="text-ink font-semibold">{doc.title}</span>
         </div>
 
         {/* 头部标题与描述 */}
-        <div className="border-b border-slate-800 pb-8 mb-8">
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+        <div className="border-b border-hairline pb-8 mb-8">
+          <h1 className="text-3xl sm:text-4xl font-bold text-ink tracking-tight">
             {doc.title}
           </h1>
           {doc.description && (
-            <p className="mt-3 text-base sm:text-lg text-slate-400 leading-relaxed">
+            <p className="mt-3 text-base sm:text-lg text-neutral-600 leading-relaxed font-light">
               {doc.description}
             </p>
           )}
         </div>
 
         {/* 渲染正文 Markdown */}
-        <div className="prose prose-invert prose-sky max-w-none prose-headings:font-bold prose-headings:text-white prose-p:text-slate-300 prose-p:leading-relaxed prose-code:font-mono prose-code:text-sky-300 prose-code:bg-slate-900 prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:border prose-code:border-slate-800 prose-pre:bg-slate-900 prose-pre:border prose-pre:border-slate-800 prose-th:text-slate-200 prose-td:text-slate-300 prose-table:border-slate-800">
+        <div className="max-w-none text-ink">
           <MarkdownRenderer content={doc.content} />
         </div>
 
         {/* 上一篇 / 下一篇翻页卡片 */}
-        <div className="mt-16 pt-8 border-t border-slate-850 grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="mt-16 pt-8 border-t border-hairline grid grid-cols-1 sm:grid-cols-2 gap-4">
           {prevDoc ? (
             <Link
               href={prevDoc.slug ? `/${lang}/docs/${prevDoc.slug}` : `/${lang}/docs`}
-              className="flex flex-col p-4 rounded-xl border border-slate-800 bg-slate-900/50 hover:bg-slate-900 hover:border-sky-500/40 transition group text-left"
+              className="flex flex-col p-4 rounded-lg border border-hairline bg-canvas hover:border-black hover:bg-surface-soft transition group text-left"
             >
-              <span className="text-[11px] font-mono text-slate-500 flex items-center gap-1 group-hover:text-sky-400">
+              <span className="text-[11px] font-mono text-neutral-500 flex items-center gap-1 group-hover:text-ink">
                 <ArrowLeft className="h-3 w-3" />
                 {lang === 'zh' ? '上一篇' : 'Previous'}
               </span>
-              <span className="text-sm font-semibold text-slate-200 mt-1">
+              <span className="text-sm font-semibold text-ink mt-1">
                 {prevDoc.title}
               </span>
             </Link>
@@ -97,13 +96,13 @@ export default async function DocPage({ params }: DocPageProps) {
           {nextDoc && (
             <Link
               href={nextDoc.slug ? `/${lang}/docs/${nextDoc.slug}` : `/${lang}/docs`}
-              className="flex flex-col p-4 rounded-xl border border-slate-800 bg-slate-900/50 hover:bg-slate-900 hover:border-sky-500/40 transition group text-right sm:ml-auto w-full"
+              className="flex flex-col p-4 rounded-lg border border-hairline bg-canvas hover:border-black hover:bg-surface-soft transition group text-right sm:ml-auto w-full"
             >
-              <span className="text-[11px] font-mono text-slate-500 flex items-center justify-end gap-1 group-hover:text-sky-400">
+              <span className="text-[11px] font-mono text-neutral-500 flex items-center justify-end gap-1 group-hover:text-ink">
                 {lang === 'zh' ? '下一篇' : 'Next'}
                 <ArrowRight className="h-3 w-3" />
               </span>
-              <span className="text-sm font-semibold text-slate-200 mt-1">
+              <span className="text-sm font-semibold text-ink mt-1">
                 {nextDoc.title}
               </span>
             </Link>
@@ -113,9 +112,9 @@ export default async function DocPage({ params }: DocPageProps) {
 
       {/* 右侧 TOC 页面目录导航 */}
       {doc.toc.length > 0 && (
-        <aside className="hidden xl:block xl:col-span-3 sticky top-24 space-y-4 border-l border-slate-850 pl-6 text-xs">
-          <div className="flex items-center gap-2 font-mono uppercase tracking-wider text-slate-400 font-bold">
-            <Bookmark className="h-3.5 w-3.5 text-sky-400" />
+        <aside className="hidden xl:block xl:col-span-3 sticky top-24 space-y-4 border-l border-hairline pl-6 text-xs">
+          <div className="flex items-center gap-2 font-mono uppercase tracking-wider text-neutral-400 font-bold">
+            <Bookmark className="h-3.5 w-3.5 text-ink" />
             <span>{lang === 'zh' ? '本页导读' : 'On this page'}</span>
           </div>
           <ul className="space-y-2">
@@ -126,7 +125,7 @@ export default async function DocPage({ params }: DocPageProps) {
               >
                 <a
                   href={`#${item.id}`}
-                  className="text-slate-400 hover:text-sky-400 transition block py-0.5 line-clamp-1"
+                  className="text-neutral-600 hover:text-ink hover:underline transition block py-0.5 line-clamp-1 font-light"
                 >
                   {item.title}
                 </a>
@@ -144,7 +143,7 @@ function MarkdownRenderer({ content }: { content: string }) {
   const blocks = content.split('\n\n');
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       {blocks.map((block, idx) => {
         const trimmed = block.trim();
         if (!trimmed) return null;
@@ -157,10 +156,10 @@ function MarkdownRenderer({ content }: { content: string }) {
             .replace(/[^\w\u4e00-\u9fa5]+/g, '-')
             .replace(/^-+|-+$/g, '');
           return (
-            <h2 key={idx} id={id} className="text-2xl font-bold text-white pt-6 pb-2 border-b border-slate-850 flex items-center gap-2 group">
-              <a href={`#${id}`} className="hover:text-sky-400 flex items-center gap-2">
+            <h2 key={idx} id={id} className="text-2xl font-bold text-ink pt-8 pb-2 border-b border-hairline flex items-center gap-2 group">
+              <a href={`#${id}`} className="hover:underline flex items-center gap-2">
                 <span>{text}</span>
-                <Hash className="h-4 w-4 opacity-0 group-hover:opacity-100 text-sky-400 transition" />
+                <Hash className="h-4 w-4 opacity-0 group-hover:opacity-100 text-neutral-400 transition" />
               </a>
             </h2>
           );
@@ -174,7 +173,7 @@ function MarkdownRenderer({ content }: { content: string }) {
             .replace(/[^\w\u4e00-\u9fa5]+/g, '-')
             .replace(/^-+|-+$/g, '');
           return (
-            <h3 key={idx} id={id} className="text-lg font-bold text-sky-300 pt-4 pb-1">
+            <h3 key={idx} id={id} className="text-lg font-bold text-ink pt-4 pb-1">
               {text}
             </h3>
           );
@@ -186,25 +185,25 @@ function MarkdownRenderer({ content }: { content: string }) {
           const langTag = lines[0].replace('```', '').trim();
           const codeBody = lines.slice(1, -1).join('\n');
           return (
-            <div key={idx} className="rounded-xl overflow-hidden border border-slate-800 bg-slate-900 my-4">
+            <div key={idx} className="rounded-lg overflow-hidden border border-hairline bg-surface-soft my-5">
               {langTag && (
-                <div className="px-4 py-1.5 bg-slate-950 border-b border-slate-800 text-[11px] font-mono text-slate-400">
+                <div className="px-4 py-1.5 bg-neutral-200 border-b border-hairline text-[11px] font-mono text-neutral-700 font-semibold">
                   {langTag}
                 </div>
               )}
-              <pre className="p-4 text-xs font-mono text-sky-100 overflow-x-auto">
+              <pre className="p-4 text-xs font-mono text-ink overflow-x-auto leading-relaxed">
                 <code>{codeBody}</code>
               </pre>
             </div>
           );
         }
 
-        // 引用提示块 > [!NOTE] 等
+        // 引用提示块 > [!NOTE] 等 (使用 Block Lime 色块)
         if (trimmed.startsWith('>')) {
           return (
             <blockquote
               key={idx}
-              className="p-4 rounded-xl border-l-4 border-sky-500 bg-sky-950/20 text-slate-300 text-sm my-4 space-y-1"
+              className="p-4 rounded-lg border-l-4 border-ink bg-block-lime/60 text-ink text-sm my-4 font-normal"
             >
               {trimmed
                 .split('\n')
@@ -218,7 +217,7 @@ function MarkdownRenderer({ content }: { content: string }) {
         if (trimmed.startsWith('- ') || trimmed.startsWith('* ')) {
           const items = trimmed.split('\n').filter((l) => l.startsWith('- ') || l.startsWith('* '));
           return (
-            <ul key={idx} className="list-disc list-inside space-y-1 text-slate-300 text-sm">
+            <ul key={idx} className="list-disc list-inside space-y-1.5 text-neutral-800 text-sm font-light">
               {items.map((item, ii) => (
                 <li key={ii} className="leading-relaxed">
                   {item.replace(/^[-*]\s+/, '')}
@@ -232,7 +231,7 @@ function MarkdownRenderer({ content }: { content: string }) {
         if (/^\d+\.\s/.test(trimmed)) {
           const items = trimmed.split('\n').filter((l) => /^\d+\.\s/.test(l));
           return (
-            <ol key={idx} className="list-decimal list-inside space-y-1 text-slate-300 text-sm">
+            <ol key={idx} className="list-decimal list-inside space-y-1.5 text-neutral-800 text-sm font-light">
               {items.map((item, ii) => (
                 <li key={ii} className="leading-relaxed">
                   {item.replace(/^\d+\.\s+/, '')}
@@ -250,20 +249,20 @@ function MarkdownRenderer({ content }: { content: string }) {
             const bodyRows = rows.slice(2).map((r) => r.split('|').filter(Boolean).map((c) => c.trim()));
 
             return (
-              <div key={idx} className="overflow-x-auto my-4 border border-slate-800 rounded-xl">
-                <table className="w-full text-xs text-left text-slate-300">
-                  <thead className="bg-slate-900 border-b border-slate-800 text-slate-200">
+              <div key={idx} className="overflow-x-auto my-5 border border-hairline rounded-lg">
+                <table className="w-full text-xs text-left text-neutral-800">
+                  <thead className="bg-surface-soft border-b border-hairline text-ink font-semibold">
                     <tr>
                       {headerCells.map((h, hi) => (
-                        <th key={hi} className="p-3 font-semibold">
+                        <th key={hi} className="p-3">
                           {h}
                         </th>
                       ))}
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-slate-850">
+                  <tbody className="divide-y divide-hairline-soft">
                     {bodyRows.map((row, ri) => (
-                      <tr key={ri} className="hover:bg-slate-900/40">
+                      <tr key={ri} className="hover:bg-neutral-50 font-light">
                         {row.map((cell, ci) => (
                           <td key={ci} className="p-3">
                             {cell}
@@ -280,7 +279,7 @@ function MarkdownRenderer({ content }: { content: string }) {
 
         // 普通段落
         return (
-          <p key={idx} className="text-slate-300 text-sm leading-relaxed">
+          <p key={idx} className="text-neutral-800 text-base leading-relaxed font-light">
             {trimmed}
           </p>
         );

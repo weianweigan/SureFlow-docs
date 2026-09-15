@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
 import { type Locale, DICTIONARY } from '@/lib/i18n';
-import { DownloadButton } from '@/components/download-button';
 import { ModelViewer } from '@/components/model-viewer';
 import { FeatureShowcase } from '@/components/dg16-guide';
 import { DG16Background } from '@/components/dg16-background';
@@ -9,6 +8,8 @@ import {
   ArrowRight,
   ExternalLink,
   CheckCircle2,
+  Terminal,
+  Cpu,
 } from 'lucide-react';
 
 interface HomePageProps {
@@ -24,10 +25,10 @@ export default async function HomePage({ params }: HomePageProps) {
 
   return (
     <div className="relative min-h-screen bg-canvas text-ink selection:bg-neutral-900 selection:text-white">
-      {/* 全页面 DG16 标准图纸背景驱动系统 (GSAP ScrollTrigger Driven) */}
+      {/* 全页面 DG16 标准图纸背景驱动系统 (DrawSVG + GSAP ScrollTrigger) */}
       <DG16Background lang={lang} />
 
-      {/* 1. Hero 区域：纯白画布 + 克制精确的工程标题 + 3D 模型视口 */}
+      {/* 1. Hero 区域：纯白画布 + 克制精确的工程标题 + 3D 模型视口 (无下载按钮) */}
       <section className="relative z-10 mx-auto max-w-7xl px-4 pt-16 pb-20 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* 左侧文字排版 */}
@@ -46,16 +47,24 @@ export default async function HomePage({ params }: HomePageProps) {
               {t.hero.description}
             </p>
 
-            {/* 下载与文档主操作按钮对 */}
+            {/* 主操作对：文档与源码 (不放置下载按钮) */}
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
-              <DownloadButton lang={lang} />
               <Link
                 href={`/${lang}/docs`}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-ink bg-white/80 hover:bg-white border border-hairline rounded-pill transition shadow-2xs"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-semibold text-white bg-ink hover:bg-neutral-800 rounded-pill transition shadow-sm"
               >
-                <span>{t.hero.secondaryAction}</span>
+                <span>{lang === 'zh' ? '探索设计文档' : 'Explore Documentation'}</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
+              <a
+                href="https://github.com/weianweigan/SureFlow"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-ink bg-white/90 hover:bg-white border border-hairline rounded-pill transition shadow-2xs"
+              >
+                <span>GitHub</span>
+                <ExternalLink className="h-4 w-4" />
+              </a>
             </div>
 
             {/* 核心工程指标规范 */}
@@ -89,7 +98,7 @@ export default async function HomePage({ params }: HomePageProps) {
 
           {/* 右侧 3D 阀块交互视口 */}
           <div className="lg:col-span-6">
-            <div className="rounded-2xl border border-hairline/80 bg-white/70 backdrop-blur-md p-3 shadow-sm">
+            <div className="rounded-2xl border border-hairline/80 bg-white/75 backdrop-blur-md p-3 shadow-sm">
               <ModelViewer
                 src="/models/hydraulic-block.glb"
                 alt="SureFlow Hydraulic Manifold 3D Demo"
@@ -103,14 +112,16 @@ export default async function HomePage({ params }: HomePageProps) {
       {/* 2. 主设计工作台实机三维布孔视口展示 */}
       <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-t border-hairline-soft/80">
         <div className="space-y-6">
-          <div className="max-w-3xl space-y-2">
-            <span className="font-mono text-xs uppercase tracking-wider text-neutral-500 font-semibold">
-              {t.uiSection.tag}
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink">
-              {t.uiSection.title}
-            </h2>
-            <p className="text-sm sm:text-base text-neutral-700 leading-relaxed font-light">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className="max-w-2xl space-y-2">
+              <span className="font-mono text-xs uppercase tracking-wider text-neutral-500 font-semibold">
+                {t.uiSection.tag}
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink">
+                {t.uiSection.title}
+              </h2>
+            </div>
+            <p className="text-xs sm:text-sm text-neutral-600 max-w-md font-light">
               {t.uiSection.description}
             </p>
           </div>
@@ -137,7 +148,7 @@ export default async function HomePage({ params }: HomePageProps) {
         </div>
       </section>
 
-      {/* 3. GSAP 驱动的 DG16 导引式全流程功能特性链路 */}
+      {/* 3. GSAP 驱动的 DG16 导引式全流程功能特性链路 (视觉优先，少文字) */}
       <FeatureShowcase lang={lang} />
 
       {/* 4. Block Cream 大色块：孔腔库管理与剖面编辑展示 */}
@@ -202,28 +213,41 @@ export default async function HomePage({ params }: HomePageProps) {
         </div>
       </section>
 
-      {/* 5. 底部行动号召 (CTA) */}
-      <section className="relative z-10 mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-        <div className="rounded-2xl bg-white/85 backdrop-blur-md p-10 sm:p-16 border border-hairline text-center space-y-6 shadow-xs">
-          <div className="max-w-2xl mx-auto space-y-4">
-            <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-ink">
-              {lang === 'zh' ? '下载并运行 SureFlow 客户端' : 'Get Started with SureFlow'}
+      {/* 5. 底部工程架构与生态收尾 (无下载按钮) */}
+      <section className="relative z-10 mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 border-t border-hairline-soft/80">
+        <div className="rounded-2xl bg-white/85 backdrop-blur-md p-10 sm:p-14 border border-hairline text-center space-y-6 shadow-xs">
+          <div className="max-w-2xl mx-auto space-y-3">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-surface-soft text-neutral-800 text-xs font-mono font-medium border border-hairline">
+              <Terminal className="h-3.5 w-3.5" />
+              <span>OPEN SOURCE & PRECISION ENGINEERING</span>
+            </div>
+
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink">
+              {lang === 'zh' ? '基于现代化几何内核与开源生态构建' : 'Engineered on Modern CAD Kernels & Open Ecosystem'}
             </h2>
-            <p className="text-base text-neutral-700 font-light">
+
+            <p className="text-sm text-neutral-600 font-light">
               {lang === 'zh'
-                ? '通过 sureflow-update.hy3d.space 边缘节点获取最新发布的 Windows / macOS 客户端。'
-                : 'Download the latest Windows or macOS desktop client delivered through sureflow-update.hy3d.space edge proxy.'}
+                ? '集成 OpenCASCADE (OCCT) 高保真几何引擎与 Three.js 硬件加速视口，严格遵循 DIN ISO 7368 / ISO 4401 工业流体标准。'
+                : 'Integrating OpenCASCADE (OCCT) BRep geometric kernel and Three.js hardware-accelerated viewport, fully compliant with DIN ISO 7368 / ISO 4401 standards.'}
             </p>
-            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-3">
-              <DownloadButton lang={lang} />
+
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+              <Link
+                href={`/${lang}/docs`}
+                className="inline-flex items-center gap-2 px-6 py-3 text-xs font-mono font-bold text-white bg-ink hover:bg-neutral-800 rounded-pill transition shadow-xs"
+              >
+                <span>{lang === 'zh' ? '查阅架构文档' : 'Read Architecture Docs'}</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </Link>
               <a
                 href="https://github.com/weianweigan/SureFlow"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-ink bg-white hover:bg-neutral-50 border border-hairline rounded-pill transition shadow-2xs"
+                className="inline-flex items-center gap-2 px-6 py-3 text-xs font-mono font-bold text-ink bg-white hover:bg-neutral-50 border border-hairline rounded-pill transition shadow-2xs"
               >
-                <span>{lang === 'zh' ? 'GitHub 源码仓库' : 'GitHub Source'}</span>
-                <ExternalLink className="h-4 w-4" />
+                <span>GitHub Repository</span>
+                <ExternalLink className="h-3.5 w-3.5" />
               </a>
             </div>
           </div>

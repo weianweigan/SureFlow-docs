@@ -2,14 +2,11 @@ import React from 'react';
 import Link from 'next/link';
 import { type Locale, DICTIONARY } from '@/lib/i18n';
 import { ModelViewer } from '@/components/model-viewer';
-import { FeatureShowcase } from '@/components/dg16-guide';
-import { DG16Background } from '@/components/dg16-background';
 import {
   ArrowRight,
   ExternalLink,
   CheckCircle2,
   Terminal,
-  Cpu,
 } from 'lucide-react';
 
 interface HomePageProps {
@@ -25,35 +22,34 @@ export default async function HomePage({ params }: HomePageProps) {
 
   return (
     <div className="relative min-h-screen bg-canvas text-ink selection:bg-neutral-900 selection:text-white">
-      {/* 全页面 DG16 标准图纸背景驱动系统 (DrawSVG + GSAP ScrollTrigger) */}
-      <DG16Background lang={lang} />
+      {/* 极简工程背景网格 */}
+      <div className="fixed inset-0 pointer-events-none opacity-30 [background-image:linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] [background-size:32px_32px]" />
 
-      {/* 1. Hero 区域：纯白画布 + 克制精确的工程标题 + 3D 模型视口 (无下载按钮) */}
-      <section className="relative z-10 mx-auto max-w-7xl px-4 pt-16 pb-20 sm:px-6 lg:px-8">
+      {/* 1. 精简 Hero 区域：克制精确的大标题 + 极简单句描述 + 3D 阀块交互视口 */}
+      <section className="relative z-10 mx-auto max-w-7xl px-4 pt-16 pb-16 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-          {/* 左侧文字排版 */}
+          {/* 左侧文字与操作区 */}
           <div className="lg:col-span-6 space-y-6 text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-pill bg-white/90 backdrop-blur-sm text-neutral-800 text-xs font-mono font-medium border border-hairline shadow-2xs">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-white/90 backdrop-blur-sm text-neutral-800 text-xs font-mono font-medium border border-hairline shadow-2xs">
               <span className="h-2 w-2 rounded-full bg-semantic-success animate-pulse" />
               <span>{t.hero.tag}</span>
             </div>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-[56px] font-normal text-ink tracking-tightest leading-[1.08]">
+            <h1 className="text-4xl sm:text-5xl lg:text-[54px] font-bold text-ink tracking-tightest leading-[1.1]">
               {t.hero.title}
-              <span className="block font-bold text-ink mt-1.5">{t.hero.titleHighlight}</span>
             </h1>
 
-            <p className="text-base sm:text-lg text-neutral-700 max-w-xl leading-relaxed font-light">
+            <p className="text-base sm:text-lg text-neutral-600 max-w-lg leading-relaxed font-light">
               {t.hero.description}
             </p>
 
-            {/* 主操作对：文档与源码 */}
-            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-2">
+            {/* 主操作对：文档与 GitHub */}
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 pt-1">
               <Link
                 href={`/${lang}/docs`}
                 className="inline-flex items-center justify-center gap-2 px-7 py-3.5 text-sm font-semibold text-white bg-ink hover:bg-neutral-800 rounded-pill transition shadow-sm"
               >
-                <span>{lang === 'zh' ? '探索设计文档' : 'Explore Documentation'}</span>
+                <span>{t.hero.primaryAction}</span>
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <a
@@ -62,43 +58,27 @@ export default async function HomePage({ params }: HomePageProps) {
                 rel="noreferrer"
                 className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-ink bg-white/90 hover:bg-white border border-hairline rounded-pill transition shadow-2xs"
               >
-                <span>GitHub</span>
+                <span>{t.hero.secondaryAction}</span>
                 <ExternalLink className="h-4 w-4" />
               </a>
             </div>
 
-            {/* 核心工程指标规范 */}
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-hairline/80 max-w-lg">
-              <div>
-                <p className="text-xs font-mono text-neutral-500 uppercase">
-                  {t.hero.stats.flow}
-                </p>
-                <p className="text-sm font-semibold text-ink mt-1">
-                  {t.hero.stats.flowVal}
-                </p>
-              </div>
-              <div>
-                <p className="text-xs font-mono text-neutral-500 uppercase">
-                  {t.hero.stats.format}
-                </p>
-                <p className="text-sm font-semibold text-ink mt-1 font-mono">
-                  {t.hero.stats.formatVal}
-                </p>
-              </div>
-              <div>
-                <p className="text-xs font-mono text-neutral-500 uppercase">
-                  {t.hero.stats.runtime}
-                </p>
-                <p className="text-sm font-semibold text-ink mt-1">
-                  {t.hero.stats.runtimeVal}
-                </p>
-              </div>
+            {/* 极简规范徽标行 (替代原本繁琐的多栏表格) */}
+            <div className="flex flex-wrap items-center gap-2 pt-4 border-t border-hairline/80">
+              {t.hero.badges.map((badge, idx) => (
+                <span
+                  key={idx}
+                  className="px-2.5 py-1 rounded-md bg-surface-soft/80 border border-hairline text-neutral-700 font-mono text-xs font-medium"
+                >
+                  {badge}
+                </span>
+              ))}
             </div>
           </div>
 
           {/* 右侧 3D 阀块交互视口 */}
           <div className="lg:col-span-6">
-            <div className="rounded-2xl border border-hairline/80 bg-white/75 backdrop-blur-md p-3 shadow-sm">
+            <div className="rounded-2xl border border-hairline/80 bg-white/80 backdrop-blur-md p-3 shadow-sm">
               <ModelViewer
                 src="/models/hydraulic-block.glb"
                 alt="SureFlow Hydraulic Manifold 3D Demo"
@@ -148,10 +128,7 @@ export default async function HomePage({ params }: HomePageProps) {
         </div>
       </section>
 
-      {/* 3. GSAP 驱动的 DG16 导引式全流程功能特性链路 (视觉优先，少文字) */}
-      <FeatureShowcase lang={lang} />
-
-      {/* 4. Block Cream 大色块：孔腔库管理与剖面编辑展示 */}
+      {/* 3. Block Cream 大色块：孔腔库管理与剖面编辑展示 */}
       <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="bg-block-cream/90 backdrop-blur-sm rounded-2xl p-8 sm:p-14 text-ink space-y-8 border border-neutral-300/40 shadow-xs">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
@@ -213,7 +190,7 @@ export default async function HomePage({ params }: HomePageProps) {
         </div>
       </section>
 
-      {/* 5. 底部工程架构与生态收尾 (无下载按钮) */}
+      {/* 4. 底部工程架构与开源生态收尾 */}
       <section className="relative z-10 mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8 border-t border-hairline-soft/80">
         <div className="rounded-2xl bg-white/85 backdrop-blur-md p-10 sm:p-14 border border-hairline text-center space-y-6 shadow-xs">
           <div className="max-w-2xl mx-auto space-y-3">
@@ -228,8 +205,8 @@ export default async function HomePage({ params }: HomePageProps) {
 
             <p className="text-sm text-neutral-600 font-light">
               {lang === 'zh'
-                ? '集成 OpenCASCADE (OCCT) 高保真几何引擎与 Three.js 硬件加速视口，严格遵循 DIN ISO 7368 / ISO 4401 工业流体标准。'
-                : 'Integrating OpenCASCADE (OCCT) BRep geometric kernel and Three.js hardware-accelerated viewport, fully compliant with DIN ISO 7368 / ISO 4401 standards.'}
+                ? '集成 OpenCASCADE (OCCT) 高保真几何引擎与 Three.js 硬件加速视口，严格遵循工业流体标准。'
+                : 'Integrating OpenCASCADE (OCCT) BRep geometric kernel and Three.js hardware-accelerated viewport.'}
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">

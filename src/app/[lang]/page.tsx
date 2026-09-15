@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { type Locale, DICTIONARY } from '@/lib/i18n';
 import { DownloadButton } from '@/components/download-button';
 import { ModelViewer } from '@/components/model-viewer';
+import { DG16Guide } from '@/components/dg16-guide';
 import {
   ArrowRight,
   ExternalLink,
@@ -131,44 +132,25 @@ export default async function HomePage({ params }: HomePageProps) {
         </div>
       </section>
 
-      {/* 3. Block Lime 大色块：设计链路的四个关键阶段 (PRD 功能模型) */}
+      {/* 3. 卡片式滚动导引：以 library.sflib 中标准的 DG16 安装面与孔腔为导引 */}
       <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="bg-block-lime rounded-lg p-8 sm:p-14 text-ink space-y-10">
-          <div className="max-w-3xl space-y-3">
-            <span className="font-mono text-xs uppercase tracking-wider text-neutral-800 font-semibold">
-              {t.workflowSection.tag}
+        <div className="space-y-6">
+          <div className="max-w-2xl space-y-2">
+            <span className="font-mono text-xs uppercase tracking-wider text-neutral-500 font-semibold">
+              {lang === 'zh' ? '交互式孔腔导引 / SFLIB SCHEMA' : 'INTERACTIVE CAVITY GUIDE / SFLIB'}
             </span>
-            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-ink">
-              {t.workflowSection.title}
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-ink">
+              {lang === 'zh' ? '卡片式孔腔装配与油路导引' : 'Card-based Cavity Architecture'}
             </h2>
-            <p className="text-sm sm:text-base text-neutral-800 leading-relaxed font-light">
-              {t.workflowSection.subtitle}
+            <p className="text-sm sm:text-base text-neutral-700 leading-relaxed font-light">
+              {lang === 'zh'
+                ? '以内置标准库 DG16 二通插装阀（DIN ISO 7368）为例，滚动浏览各阶段孔腔几何、先导油路映射与最小壁厚干涉检测。'
+                : 'Guided walkthrough of standard 2-way cartridge valve DG16 (DIN ISO 7368), linking cavity geometry, pilot routing, and interference checks.'}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {t.workflowSection.stages.map((st) => (
-              <div
-                key={st.num}
-                className="bg-canvas rounded-md p-6 border border-black/10 space-y-4 shadow-xs hover:border-black transition"
-              >
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-mono font-bold px-2 py-0.5 rounded bg-surface-soft text-ink">
-                    PHASE {st.num}
-                  </span>
-                  <div className="h-8 w-8 rounded-md bg-surface-soft flex items-center justify-center p-1.5">
-                    <img src={st.icon} alt={st.title} className="h-full w-full object-contain" />
-                  </div>
-                </div>
-                <h3 className="text-base font-bold text-ink leading-snug">
-                  {st.title}
-                </h3>
-                <p className="text-xs text-neutral-700 leading-relaxed font-light">
-                  {st.desc}
-                </p>
-              </div>
-            ))}
-          </div>
+          {/* 交互式图纸与滚动卡片组件 */}
+          <DG16Guide lang={lang} />
         </div>
       </section>
 

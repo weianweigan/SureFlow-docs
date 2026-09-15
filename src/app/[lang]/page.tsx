@@ -4,6 +4,7 @@ import { type Locale, DICTIONARY } from '@/lib/i18n';
 import { DownloadButton } from '@/components/download-button';
 import { ModelViewer } from '@/components/model-viewer';
 import { FeatureShowcase } from '@/components/dg16-guide';
+import { DG16Background } from '@/components/dg16-background';
 import {
   ArrowRight,
   ExternalLink,
@@ -22,14 +23,17 @@ export default async function HomePage({ params }: HomePageProps) {
   const mainUiSrc = lang === 'en' ? '/images/main-ui.en.png' : '/images/main-ui.zh.png';
 
   return (
-    <div className="relative bg-canvas text-ink">
+    <div className="relative min-h-screen bg-canvas text-ink selection:bg-neutral-900 selection:text-white">
+      {/* 全页面 DG16 标准图纸背景驱动系统 (GSAP ScrollTrigger Driven) */}
+      <DG16Background lang={lang} />
+
       {/* 1. Hero 区域：纯白画布 + 克制精确的工程标题 + 3D 模型视口 */}
-      <section className="mx-auto max-w-7xl px-4 pt-16 pb-16 sm:px-6 lg:px-8">
+      <section className="relative z-10 mx-auto max-w-7xl px-4 pt-16 pb-20 sm:px-6 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* 左侧文字排版 */}
           <div className="lg:col-span-6 space-y-6 text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-pill bg-surface-soft text-neutral-800 text-xs font-mono font-medium border border-hairline">
-              <span className="h-2 w-2 rounded-full bg-semantic-success" />
+            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-pill bg-white/90 backdrop-blur-sm text-neutral-800 text-xs font-mono font-medium border border-hairline shadow-2xs">
+              <span className="h-2 w-2 rounded-full bg-semantic-success animate-pulse" />
               <span>{t.hero.tag}</span>
             </div>
 
@@ -47,7 +51,7 @@ export default async function HomePage({ params }: HomePageProps) {
               <DownloadButton lang={lang} />
               <Link
                 href={`/${lang}/docs`}
-                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-ink bg-surface-soft hover:bg-neutral-300 rounded-pill transition"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-ink bg-white/80 hover:bg-white border border-hairline rounded-pill transition shadow-2xs"
               >
                 <span>{t.hero.secondaryAction}</span>
                 <ArrowRight className="h-4 w-4" />
@@ -55,7 +59,7 @@ export default async function HomePage({ params }: HomePageProps) {
             </div>
 
             {/* 核心工程指标规范 */}
-            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-hairline max-w-lg">
+            <div className="grid grid-cols-3 gap-6 pt-8 border-t border-hairline/80 max-w-lg">
               <div>
                 <p className="text-xs font-mono text-neutral-500 uppercase">
                   {t.hero.stats.flow}
@@ -85,17 +89,19 @@ export default async function HomePage({ params }: HomePageProps) {
 
           {/* 右侧 3D 阀块交互视口 */}
           <div className="lg:col-span-6">
-            <ModelViewer
-              src="/models/hydraulic-block.glb"
-              alt="SureFlow Hydraulic Manifold 3D Demo"
-              className="h-[460px] w-full"
-            />
+            <div className="rounded-2xl border border-hairline/80 bg-white/70 backdrop-blur-md p-3 shadow-sm">
+              <ModelViewer
+                src="/models/hydraulic-block.glb"
+                alt="SureFlow Hydraulic Manifold 3D Demo"
+                className="h-[460px] w-full rounded-xl overflow-hidden"
+              />
+            </div>
           </div>
         </div>
       </section>
 
       {/* 2. 主设计工作台实机三维布孔视口展示 */}
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 border-t border-hairline-soft">
+      <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-t border-hairline-soft/80">
         <div className="space-y-6">
           <div className="max-w-3xl space-y-2">
             <span className="font-mono text-xs uppercase tracking-wider text-neutral-500 font-semibold">
@@ -110,7 +116,7 @@ export default async function HomePage({ params }: HomePageProps) {
           </div>
 
           {/* 实机截图画框 */}
-          <div className="rounded-lg border border-hairline bg-surface-soft p-3 sm:p-5 shadow-xs space-y-3">
+          <div className="rounded-2xl border border-hairline/80 bg-white/80 backdrop-blur-md p-3 sm:p-5 shadow-sm space-y-3">
             <div className="flex items-center justify-between px-2 text-xs font-mono text-neutral-600">
               <div className="flex items-center gap-2">
                 <span className="h-2.5 w-2.5 rounded-full bg-red-400 inline-block" />
@@ -118,9 +124,9 @@ export default async function HomePage({ params }: HomePageProps) {
                 <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 inline-block" />
                 <span className="ml-2 font-medium text-ink">{t.uiSection.caption}</span>
               </div>
-              <span className="hidden sm:inline">Three.js / CSG 布尔渲染引擎</span>
+              <span className="hidden sm:inline">Three.js / CSG 布尔切削视口</span>
             </div>
-            <div className="overflow-hidden rounded-md border border-hairline bg-canvas">
+            <div className="overflow-hidden rounded-xl border border-hairline bg-canvas shadow-2xs">
               <img
                 src={mainUiSrc}
                 alt="SureFlow Studio 3D Viewport Interface"
@@ -131,12 +137,12 @@ export default async function HomePage({ params }: HomePageProps) {
         </div>
       </section>
 
-      {/* 3. GSAP 驱动的 DG16 导引式功能特性卡片 */}
+      {/* 3. GSAP 驱动的 DG16 导引式全流程功能特性链路 */}
       <FeatureShowcase lang={lang} />
 
       {/* 4. Block Cream 大色块：孔腔库管理与剖面编辑展示 */}
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-        <div className="bg-block-cream rounded-lg p-8 sm:p-14 text-ink space-y-8">
+      <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
+        <div className="bg-block-cream/90 backdrop-blur-sm rounded-2xl p-8 sm:p-14 text-ink space-y-8 border border-neutral-300/40 shadow-xs">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             {/* 左侧文字介绍 */}
             <div className="lg:col-span-5 space-y-4">
@@ -178,12 +184,12 @@ export default async function HomePage({ params }: HomePageProps) {
 
             {/* 右侧孔腔库截图 */}
             <div className="lg:col-span-7">
-              <div className="rounded-lg border border-black/15 bg-canvas p-3 shadow-xs space-y-2">
+              <div className="rounded-xl border border-black/15 bg-white/90 backdrop-blur-sm p-3 shadow-xs space-y-2">
                 <div className="flex items-center justify-between px-1 text-[11px] font-mono text-neutral-600">
                   <span>{t.librarySection.caption}</span>
                   <span>{lang === 'zh' ? '参数化二维截面' : 'Parametric 2D Cross-section'}</span>
                 </div>
-                <div className="overflow-hidden rounded-md border border-hairline">
+                <div className="overflow-hidden rounded-lg border border-hairline">
                   <img
                     src="/images/cavity-library.png"
                     alt="SureFlow Cavity Library Management View"
@@ -197,8 +203,8 @@ export default async function HomePage({ params }: HomePageProps) {
       </section>
 
       {/* 5. 底部行动号召 (CTA) */}
-      <section className="mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8">
-        <div className="rounded-lg bg-surface-soft p-10 sm:p-16 border border-hairline text-center space-y-6">
+      <section className="relative z-10 mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
+        <div className="rounded-2xl bg-white/85 backdrop-blur-md p-10 sm:p-16 border border-hairline text-center space-y-6 shadow-xs">
           <div className="max-w-2xl mx-auto space-y-4">
             <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-ink">
               {lang === 'zh' ? '下载并运行 SureFlow 客户端' : 'Get Started with SureFlow'}
@@ -214,7 +220,7 @@ export default async function HomePage({ params }: HomePageProps) {
                 href="https://github.com/weianweigan/SureFlow"
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-ink bg-canvas hover:bg-neutral-100 border border-hairline rounded-pill transition"
+                className="inline-flex items-center gap-2 px-6 py-3.5 text-sm font-semibold text-ink bg-white hover:bg-neutral-50 border border-hairline rounded-pill transition shadow-2xs"
               >
                 <span>{lang === 'zh' ? 'GitHub 源码仓库' : 'GitHub Source'}</span>
                 <ExternalLink className="h-4 w-4" />

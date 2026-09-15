@@ -1,8 +1,17 @@
 'use client';
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import {
+  Layers,
+  Crosshair,
+  GitBranch,
+  ShieldCheck,
+  FileCheck2,
+  Cpu,
+  ArrowDownRight,
+} from 'lucide-react';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -10,108 +19,113 @@ interface FeatureShowcaseProps {
   lang: 'zh' | 'en';
 }
 
-/* ------------------------------------------------------------------ */
-/*  DG16 真实几何数据 (from library.sflib)                              */
-/*  outline: 65×65mm rect, center at (0,0)                            */
-/*  CV:  (0,0)     cartridge-valve  ⌀32/25/16                        */
-/*  LP:  (-10.5,23) locating-pin    ⌀4                               */
-/*  X:   (-25,0)    drill-hole      ⌀4                               */
-/*  Y:   (25,0)     drill-hole      ⌀4                               */
-/*  Z1:  (0,25)     drill-hole      ⌀4                               */
-/*  Z2:  (0,-25)    drill-hole      ⌀4                               */
-/*  BH1: (23,23)    bolt-hole       M8                                */
-/*  BH2: (23,-23)   bolt-hole       M8                                */
-/*  BH3: (-23,-23)  bolt-hole       M8                                */
-/*  BH4: (-23,23)   bolt-hole       M8                                */
-/* ------------------------------------------------------------------ */
-
 interface FeatureCard {
   id: string;
-  highlightGroup: string; // which SVG group to highlight
+  badge: string;
   title: string;
   desc: string;
-  badge: string;
   prdRef: string;
+  specDetails: { label: string; val: string }[];
+  highlightTarget: string;
+  icon: React.ElementType;
 }
 
 export function FeatureShowcase({ lang }: FeatureShowcaseProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const svgRef = useRef<SVGSVGElement>(null);
   const cardsRef = useRef<(HTMLDivElement | null)[]>([]);
-  const progressRef = useRef<HTMLDivElement>(null);
+  const [activeStep, setActiveStep] = useState<number>(0);
 
   const isZh = lang === 'zh';
 
   const features: FeatureCard[] = [
     {
       id: 'block-sizing',
-      highlightGroup: 'outline',
       badge: 'FR-02',
-      title: isZh ? '块体外形定义' : 'Block Stock Sizing',
+      title: isZh ? '块体基准外形定义' : 'Block Stock Sizing & Reference',
       desc: isZh
-        ? '参数化长方体或导入 STEP 异形外形作为基准几何，拾取安装面即可开始布孔。'
-        : 'Parametric rectangular stock or imported STEP reference geometry. Pick a mounting face to begin.',
-      prdRef: isZh ? '支持规则体与 STEP AP203/AP214 导入' : 'Supports rectangular stock & STEP AP203/AP214 import',
+        ? '参数化生成标准长方体基料，或直接导入已有零件的 STEP AP203/AP214 异形几何。任意拾取六个正交面或法向倾斜面作为第一布孔安装面。'
+        : 'Generate parametric rectangular block stock or import existing STEP AP203/AP214 non-standard geometry. Pick any orthogonal or angled mounting surface to begin placement.',
+      prdRef: isZh ? '规则体 & STEP AP203/AP214 基准导入' : 'Rectangular stock & STEP AP203/AP214 reference import',
+      specDetails: [
+        { label: isZh ? '基准尺寸' : 'Stock Dimension', val: '65 × 65 × 80 mm' },
+        { label: isZh ? '坐标原点' : 'Origin', val: 'Face Center (0, 0, 0)' },
+        { label: isZh ? '公差等级' : 'Tolerance Class', val: 'ISO 2768-m' },
+      ],
+      highlightTarget: isZh ? '背景高亮：65×65mm 外形轮廓与定位销 LP' : 'Background: 65×65mm Outline & Locating Pin LP',
+      icon: Layers,
     },
     {
       id: 'cavity-placement',
-      highlightGroup: 'cv',
       badge: 'FR-04',
-      title: isZh ? '参数化孔腔布设' : 'Parametric Cavity Placement',
+      title: isZh ? '参数化孔腔布设与布尔' : 'Parametric Cavity Placement & Boolean',
       desc: isZh
-        ? '从标准孔腔库中拖拽模板至安装面，精确指定坐标、方向与深度，实时 mesh 布尔渲染。'
-        : 'Drag from the cavity library to a mounting face. Define coordinates, orientation, and depth with real-time mesh boolean.',
-      prdRef: isZh ? '阶梯沉孔 · 螺纹接口 · 工艺堵孔' : 'Step bores · Threaded ports · Construction plugs',
+        ? '从标准孔腔库中拖拽二通插装阀孔模板至安装面，精确指定相对坐标与沉孔深度。基于 CSG 引擎实现毫秒级实时布尔切削与网格渲染。'
+        : 'Drag 2-way cartridge valve cavity templates directly to the mounting face with exact coordinates and counterbore depth. Real-time CSG boolean cut with live mesh feedback.',
+      prdRef: isZh ? '阶梯沉孔 · 螺纹公差 · 毫秒级 CSG 预览' : 'Stepped counterbores · Thread tolerances · Live CSG cut',
+      specDetails: [
+        { label: isZh ? '主阀孔径' : 'Main Bore', val: '⌀32 / ⌀25 / ⌀16 mm' },
+        { label: isZh ? '装配深度' : 'Depth', val: '43.0 mm (Standard)' },
+        { label: isZh ? '孔道轴向' : 'Axis Alignment', val: 'Normal to Face (Z-)' },
+      ],
+      highlightTarget: isZh ? '背景高亮：CV ⌀32/25/16 阶梯孔同心沉切环' : 'Background: CV ⌀32/25/16 Stepped Concentric Rings',
+      icon: Crosshair,
     },
     {
       id: 'pilot-routing',
-      highlightGroup: 'pilot',
       badge: 'FR-03',
-      title: isZh ? '油路连通与孔腔库' : 'Cavity Library & Port Routing',
+      title: isZh ? '先导油路与孔腔库拓扑' : 'Pilot Routing & Cavity Library',
       desc: isZh
-        ? '内置标准库涵盖插装阀孔、ISO 4401 板式阀面与 SAE 油口模板，支持 P/T/A/B 语义标注与自定义扩展。'
-        : 'Built-in standard library covers cartridge valves, ISO 4401 subplates, and SAE port templates with P/T/A/B semantic tags.',
-      prdRef: isZh ? '拖拽布孔 · JSON 扩展 · 企业私有库' : 'Drag to place · JSON schema · Enterprise custom libraries',
+        ? '内置标准库涵盖插装阀孔、ISO 4401 板式阀面与 SAE 油口模板。支持先导控制油孔（X/Y/Z1/Z2）连通拓扑构建与 P/T/A/B 语义流向关联。'
+        : 'Built-in library includes cartridge cavities, ISO 4401 subplates, and SAE port templates. Connect pilot channels (X/Y/Z1/Z2) and assign P/T/A/B semantic netlists.',
+      prdRef: isZh ? '拖拽布设 · JSON 扩展 · 企业私有库' : 'Drag-to-place · JSON schema · Enterprise custom libraries',
+      specDetails: [
+        { label: isZh ? '控制油口' : 'Pilot Ports', val: 'X, Y, Z1, Z2 (⌀4 mm)' },
+        { label: isZh ? '连通净距' : 'Orifice Gap', val: '2.5 mm minimum' },
+        { label: isZh ? '拓扑语义' : 'Netlist Semantic', val: 'DIN ISO 7368 Standard' },
+      ],
+      highlightTarget: isZh ? '背景高亮：先导油口 X/Y/Z1/Z2 连通矢量' : 'Background: Pilot Channels X/Y/Z1/Z2 Vectors',
+      icon: GitBranch,
     },
     {
       id: 'interference-check',
-      highlightGroup: 'bolts',
       badge: 'FR-05',
-      title: isZh ? '干涉与壁厚检查' : 'Interference & Wall Thickness Check',
+      title: isZh ? '壁厚诊断与全局干涉检查' : 'Interference & Wall Thickness Diagnostics',
       desc: isZh
-        ? '自动检测孔道穿透、最小壁厚不足与元件碰撞，3D 高亮冲突区域并生成诊断报告。'
-        : 'Auto-detect channel puncture, minimum wall thickness violations, and component collisions with 3D-highlighted diagnostics.',
-      prdRef: isZh ? '100+ 孔道全量检查 ≤ 1s' : 'Full check for 100+ cavities ≤ 1s',
+        ? '一键扫描全块体内部复杂油网，毫秒级检测钻孔贯通、最小允许壁厚违规与螺栓紧固干涉，并在视口中以三维热力色块精准定位隐患。'
+        : 'One-click scan of complex internal hydraulic netlists. Sub-second detection of channel puncture, minimum wall thickness violations, and bolt interference with 3D diagnostics.',
+      prdRef: isZh ? '100+ 孔道全量检查 ≤ 1s · 3D 红色高亮' : 'Full check for 100+ cavities ≤ 1s · 3D Conflict Highlights',
+      specDetails: [
+        { label: isZh ? '紧固孔径' : 'Fasteners', val: '4 × M8 (Pitch: 46mm)' },
+        { label: isZh ? '最小壁厚' : 'Min Wall Spec', val: '≥ 3.0 mm (Safe Zone)' },
+        { label: isZh ? '扫描性能' : 'Performance', val: '≤ 120ms (DG16 Sub-tree)' },
+      ],
+      highlightTarget: isZh ? '背景高亮：4×M8 螺栓安全壁厚检测容差环' : 'Background: 4×M8 Bolt Safety Tolerance Clearance Rings',
+      icon: ShieldCheck,
     },
     {
       id: 'step-export',
-      highlightGroup: 'all',
       badge: 'FR-09',
-      title: isZh ? 'STEP 实体导出' : 'STEP Solid Export',
+      title: isZh ? 'OCCT BRep 实体流形闭环与 STEP 导出' : 'OCCT BRep Solid Rebuild & STEP Export',
       desc: isZh
-        ? '基于 OpenCASCADE (OCCT) 将 mesh 布尔结果重建为高保真 BRep 实体，直出标准 STEP AP214。'
-        : 'Rebuild mesh boolean results into high-fidelity BRep solids via OpenCASCADE (OCCT) for STEP AP214 export.',
-      prdRef: isZh ? 'mesh→solid 转换误差 ≤ 0.01mm' : 'mesh→solid conversion tolerance ≤ 0.01mm',
+        ? '超越传统网格简化，借助底层 OpenCASCADE 几何内核将布尔特征逆向求解为纯正 BRep 边界表示实体，直接输出用于五轴加工与 FEA 的标准 STEP AP214。'
+        : 'Moving beyond mesh approximation, OpenCASCADE (OCCT) geometry kernel reconstructs true BRep solids for 5-axis CAM machining and FEA validation in standard STEP AP214.',
+      prdRef: isZh ? 'OCCT 几何内核 · 实体转换误差 ≤ 0.01mm' : 'OCCT geometry kernel · solid tolerance ≤ 0.01mm',
+      specDetails: [
+        { label: isZh ? '导出标准' : 'Export Standard', val: 'ISO 10303-21 (STEP AP214)' },
+        { label: isZh ? '几何形态' : 'Topology Type', val: 'Manifold Closed BRep Solid' },
+        { label: isZh ? '数控加工' : 'CAM Compatibility', val: 'Siemens NX / Mastercam / CATIA' },
+      ],
+      highlightTarget: isZh ? '背景高亮：全拓扑闭环 · 标准 STEP 实体就绪' : 'Background: Full Topology Closed · STEP Solid Ready',
+      icon: FileCheck2,
     },
   ];
 
-  // Color palette for each highlight state
-  const highlightColors: Record<string, string> = {
-    outline: '#c4b5fd',  // violet-300
-    cv: '#bef264',       // lime-300
-    pilot: '#7dd3fc',    // sky-300
-    bolts: '#fcd34d',    // amber-300
-    all: '#6ee7b7',      // emerald-300
-  };
-
   useEffect(() => {
-    if (!containerRef.current || !svgRef.current) return;
+    if (!containerRef.current) return;
 
     const ctx = gsap.context(() => {
-      const cards = cardsRef.current.filter(Boolean) as HTMLDivElement[];
-      
-      // Entrance animation for the entire section
-      gsap.from('.dg16-section-title', {
+      // Header entrance animation
+      gsap.from('.feature-pipeline-header', {
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top 80%',
@@ -123,279 +137,222 @@ export function FeatureShowcase({ lang }: FeatureShowcaseProps) {
         ease: 'power3.out',
       });
 
-      // Each card triggers a highlight change on the SVG
-      cards.forEach((card, i) => {
-        const feature = features[i];
-        if (!feature) return;
+      // Animate each card
+      cardsRef.current.forEach((card, index) => {
+        if (!card) return;
 
-        // Card entrance animation
         gsap.from(card, {
           scrollTrigger: {
             trigger: card,
-            start: 'top 75%',
+            start: 'top 80%',
             toggleActions: 'play none none reverse',
           },
-          y: 60,
+          y: 40,
           opacity: 0,
-          duration: 0.7,
-          ease: 'power3.out',
-          delay: 0.05,
+          duration: 0.6,
+          ease: 'power2.out',
         });
 
-        // SVG highlight animation tied to card scroll position
+        // Update active step state for sidebar sync
         ScrollTrigger.create({
           trigger: card,
           start: 'top 60%',
           end: 'bottom 40%',
-          onEnter: () => animateHighlight(feature.highlightGroup),
-          onEnterBack: () => animateHighlight(feature.highlightGroup),
+          onEnter: () => setActiveStep(index),
+          onEnterBack: () => setActiveStep(index),
         });
       });
-
     }, containerRef);
 
     return () => ctx.revert();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const animateHighlight = (group: string) => {
-    if (!svgRef.current) return;
-    const svg = svgRef.current;
-
-    // Reset all groups to dim
-    const allGroups = svg.querySelectorAll('[data-hl-group]');
-    allGroups.forEach((g) => {
-      gsap.to(g, {
-        opacity: 0.25,
-        scale: 1,
-        duration: 0.4,
-        ease: 'power2.out',
-        transformOrigin: 'center center',
-      });
-    });
-
-    // Always keep outline visible
-    const outlineEl = svg.querySelector('[data-hl-group="outline"]');
-    if (outlineEl) {
-      const isOutlineActive = group === 'outline' || group === 'all';
-      gsap.to(outlineEl, {
-        opacity: isOutlineActive ? 1 : 0.5,
-        strokeWidth: isOutlineActive ? 2 : 1,
-        duration: 0.4,
-        ease: 'power2.out',
-      });
-    }
-
-    if (group === 'all') {
-      // Highlight everything
-      allGroups.forEach((g) => {
-        gsap.to(g, {
-          opacity: 1,
-          duration: 0.5,
-          ease: 'power2.out',
-        });
-      });
-
-      // Pulse animation on all
-      const fillColor = highlightColors[group];
-      const cvFill = svg.querySelector('[data-fill="cv-inner"]');
-      if (cvFill) {
-        gsap.to(cvFill, { fill: fillColor, duration: 0.5 });
-      }
-    } else {
-      // Highlight the specific group
-      const target = svg.querySelector(`[data-hl-group="${group}"]`);
-      if (target) {
-        gsap.to(target, {
-          opacity: 1,
-          scale: 1.03,
-          duration: 0.5,
-          ease: 'back.out(1.4)',
-          transformOrigin: 'center center',
-        });
-      }
-
-      // Update CV inner fill color to match current highlight theme
-      const fillColor = highlightColors[group] || '#e5e7eb';
-      const cvFill = svg.querySelector('[data-fill="cv-inner"]');
-      if (cvFill) {
-        gsap.to(cvFill, { fill: fillColor, duration: 0.5 });
-      }
-    }
-
-    // Update progress indicator
-    if (progressRef.current) {
-      const idx = features.findIndex((f) => f.highlightGroup === group);
-      const pips = progressRef.current.querySelectorAll('[data-pip]');
-      pips.forEach((pip, j) => {
-        gsap.to(pip, {
-          backgroundColor: j === idx ? '#000' : '#d4d4d4',
-          scaleX: j === idx ? 2.5 : 1,
-          duration: 0.3,
-        });
-      });
-    }
-  };
-
   return (
-    <section ref={containerRef} className="relative mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
-      {/* Section header */}
-      <div className="dg16-section-title max-w-2xl mb-16 space-y-3">
-        <span className="font-mono text-xs uppercase tracking-wider text-neutral-500 font-semibold">
-          {isZh ? '核心设计链路 · DIN ISO 7368 导引' : 'CORE WORKFLOW · DIN ISO 7368 GUIDED'}
-        </span>
-        <h2 className="text-3xl sm:text-4xl font-bold tracking-tight text-ink">
-          {isZh ? '从块体到成品的完整设计流程' : 'Complete Design Pipeline, Block to Export'}
+    <section
+      ref={containerRef}
+      className="relative z-10 mx-auto max-w-7xl px-4 py-24 sm:px-6 lg:px-8"
+    >
+      {/* Section Header */}
+      <div className="feature-pipeline-header max-w-3xl mb-16 space-y-4">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-white/90 backdrop-blur-sm border border-hairline text-neutral-800 text-xs font-mono font-medium shadow-2xs">
+          <Cpu className="h-3.5 w-3.5 text-neutral-600" />
+          <span>{isZh ? '全链路工程设计管道' : 'FULL ENGINEERING DESIGN PIPELINE'}</span>
+        </div>
+
+        <h2 className="text-3xl sm:text-4xl lg:text-[42px] font-bold tracking-tight text-ink leading-tight">
+          {isZh ? '由 DG16 标准图纸驱动的五大核心能力' : 'Five Core Capabilities Driven by DG16 Standard'}
         </h2>
-        <p className="text-sm sm:text-base text-neutral-600 leading-relaxed font-light">
+
+        <p className="text-base sm:text-lg text-neutral-700 leading-relaxed font-light">
           {isZh
-            ? '滚动浏览各阶段功能特性。左侧 DG16 标准二通插装阀安装面图纸随之联动高亮，直观呈现孔腔几何在设计流中的变化。'
-            : 'Scroll through each workflow stage. The DG16 standard 2-way cartridge mounting pattern on the left highlights in sync, visualizing how cavity geometry evolves through the design pipeline.'}
+            ? '全页面背景中的 DIN ISO 7368 二通插装阀标准图纸与右侧卡片实时联动。向下滚动，见证由外形定义、孔腔布设、先导油路、壁厚干涉到最终 STEP 实体导出的全流程。'
+            : 'The DIN ISO 7368 cartridge valve drawing in the background responds directly to each feature card. Scroll down to experience the complete workflow from stock sizing to STEP solid export.'}
         </p>
       </div>
 
-      {/* Main layout: sticky SVG left, scrolling cards right */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start">
-
-        {/* Left: Sticky DG16 SVG navigator */}
-        <div className="lg:col-span-5 lg:sticky lg:top-28 z-10">
-          <div className="rounded-2xl border border-hairline bg-white/95 backdrop-blur-sm shadow-sm p-5 space-y-4">
-            {/* Title bar */}
+      {/* Main Grid: Left Sticky Telemetry HUD + Right Feature Cards */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
+        
+        {/* Left: Sticky Engineering HUD Bar */}
+        <div className="lg:col-span-4 lg:sticky lg:top-28 z-20 space-y-4">
+          <div className="rounded-2xl border border-hairline/80 bg-white/85 backdrop-blur-md p-6 shadow-xs space-y-5">
+            {/* Header / Standard specification info */}
             <div className="flex items-center justify-between pb-3 border-b border-hairline">
-              <div className="flex items-center gap-2">
-                <span className="px-2 py-0.5 rounded-full text-[11px] font-mono font-bold bg-ink text-white">DG16</span>
-                <span className="text-[11px] font-mono text-neutral-400 uppercase tracking-wider">DIN ISO 7368</span>
+              <div className="space-y-0.5">
+                <div className="flex items-center gap-2">
+                  <span className="h-2 w-2 rounded-full bg-semantic-success animate-pulse" />
+                  <span className="font-mono text-xs font-bold text-ink">DIN ISO 7368</span>
+                </div>
+                <p className="text-[11px] font-mono text-neutral-500">
+                  {isZh ? '二通插装阀安装面 DG16' : '2-Way Cartridge Surface DG16'}
+                </p>
               </div>
-              <span className="text-[11px] font-mono text-neutral-400">65 × 65 mm</span>
+              <span className="px-2 py-0.5 rounded-full font-mono text-[10px] font-bold bg-neutral-100 text-neutral-700 border border-hairline">
+                65 × 65 mm
+              </span>
             </div>
 
-            {/* SVG viewport */}
-            <div className="relative aspect-square w-full rounded-xl bg-neutral-50/80 border border-hairline/60 p-3 overflow-hidden">
-              {/* Dot grid background */}
-              <div className="absolute inset-0 pointer-events-none opacity-30 bg-[radial-gradient(#d1d5db_0.8px,transparent_0.8px)] [background-size:12px_12px]" />
-
-              <svg
-                ref={svgRef}
-                viewBox="-46 -46 92 92"
-                className="w-full h-full overflow-visible"
-              >
-                {/* Center cross hair */}
-                <line x1="-40" y1="0" x2="40" y2="0" stroke="#e5e7eb" strokeWidth="0.4" strokeDasharray="2 1.5" />
-                <line x1="0" y1="-40" x2="0" y2="40" stroke="#e5e7eb" strokeWidth="0.4" strokeDasharray="2 1.5" />
-
-                {/* Outline group */}
-                <g data-hl-group="outline">
-                  <rect
-                    x="-32.5" y="-32.5" width="65" height="65" rx="1"
-                    fill="white" stroke="#000" strokeWidth="1.2"
-                  />
-                  {/* Corner dimension marks */}
-                  <line x1="-32.5" y1="-36" x2="-32.5" y2="-33" stroke="#a3a3a3" strokeWidth="0.3" />
-                  <line x1="32.5" y1="-36" x2="32.5" y2="-33" stroke="#a3a3a3" strokeWidth="0.3" />
-                  <line x1="-32.5" y1="-35" x2="32.5" y2="-35" stroke="#a3a3a3" strokeWidth="0.25" />
-                  <text x="0" y="-37" textAnchor="middle" className="text-[2.6px] font-mono fill-neutral-400">65</text>
-
-                  {/* LP locating pin */}
-                  <circle cx="-10.5" cy="-23" r="2" fill="#d4d4d8" stroke="#737373" strokeWidth="0.6" />
-                  <text x="-10.5" y="-26.5" textAnchor="middle" className="text-[2.5px] font-mono fill-neutral-500">LP</text>
-                </g>
-
-                {/* CV main cavity group */}
-                <g data-hl-group="cv">
-                  <circle cx="0" cy="0" r="16" fill="#f5f5f5" stroke="#525252" strokeWidth="0.8" />
-                  <circle cx="0" cy="0" r="12.5" fill="#fafafa" stroke="#737373" strokeWidth="0.6" />
-                  <circle data-fill="cv-inner" cx="0" cy="0" r="8" fill="#e5e7eb" stroke="#525252" strokeWidth="1" />
-                  <text x="0" y="0.8" textAnchor="middle" className="text-[3px] font-mono font-bold fill-neutral-700">CV</text>
-                  <text x="0" y="4" textAnchor="middle" className="text-[2px] font-mono fill-neutral-400">⌀32/25/16</text>
-                </g>
-
-                {/* Pilot holes group */}
-                <g data-hl-group="pilot">
-                  <circle cx="-25" cy="0" r="2" fill="#e5e7eb" stroke="#737373" strokeWidth="0.6" />
-                  <text x="-29.5" y="0.8" textAnchor="end" className="text-[2.5px] font-mono fill-neutral-500">X</text>
-
-                  <circle cx="25" cy="0" r="2" fill="#e5e7eb" stroke="#737373" strokeWidth="0.6" />
-                  <text x="29.5" y="0.8" textAnchor="start" className="text-[2.5px] font-mono fill-neutral-500">Y</text>
-
-                  <circle cx="0" cy="-25" r="2" fill="#e5e7eb" stroke="#737373" strokeWidth="0.6" />
-                  <text x="0" y="-28" textAnchor="middle" className="text-[2.5px] font-mono fill-neutral-500">Z1</text>
-
-                  <circle cx="0" cy="25" r="2" fill="#e5e7eb" stroke="#737373" strokeWidth="0.6" />
-                  <text x="0" y="30" textAnchor="middle" className="text-[2.5px] font-mono fill-neutral-500">Z2</text>
-                </g>
-
-                {/* Bolt holes group */}
-                <g data-hl-group="bolts">
-                  {[
-                    [23, -23, 'BH1'],
-                    [23, 23, 'BH2'],
-                    [-23, 23, 'BH3'],
-                    [-23, -23, 'BH4'],
-                  ].map(([cx, cy, label]) => (
-                    <g key={label as string}>
-                      <circle cx={cx as number} cy={cy as number} r="4" fill="#f5f5f5" stroke="#737373" strokeWidth="0.6" />
-                      <circle cx={cx as number} cy={cy as number} r="3.375" fill="none" stroke="#a3a3a3" strokeWidth="0.3" strokeDasharray="1.2 0.8" />
-                    </g>
-                  ))}
-                </g>
-              </svg>
+            {/* Current Pipeline Step Telemetry */}
+            <div className="space-y-2">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-600 font-bold">
+                {isZh ? '当前联动特征阶段' : 'CURRENT PIPELINE STAGE'}
+              </span>
+              <div className="p-3 rounded-lg bg-surface-soft/80 border border-hairline/70 space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="font-mono text-xs font-bold text-ink px-1.5 py-0.5 rounded bg-white border border-hairline">
+                    {features[activeStep]?.badge}
+                  </span>
+                  <span className="text-xs font-semibold text-ink truncate">
+                    {features[activeStep]?.title}
+                  </span>
+                </div>
+                <p className="text-[11px] font-mono text-neutral-600 flex items-center gap-1 pt-1">
+                  <ArrowDownRight className="h-3 w-3 text-neutral-500 shrink-0" />
+                  <span className="truncate">{features[activeStep]?.highlightTarget}</span>
+                </p>
+              </div>
             </div>
 
-            {/* Progress pips */}
-            <div ref={progressRef} className="flex items-center justify-center gap-1.5 pt-1">
-              {features.map((_, i) => (
-                <div
-                  key={i}
-                  data-pip
-                  className="h-1.5 w-3 rounded-full bg-neutral-300 transition-all origin-center"
-                />
-              ))}
+            {/* Step navigation indicator pills */}
+            <div className="space-y-2">
+              <span className="font-mono text-[10px] uppercase tracking-wider text-neutral-600 font-bold">
+                {isZh ? '设计链路进度' : 'PIPELINE PROGRESS'}
+              </span>
+              <div className="space-y-1.5">
+                {features.map((feat, idx) => {
+                  const isActive = idx === activeStep;
+                  const Icon = feat.icon;
+                  return (
+                    <div
+                      key={feat.id}
+                      className={`flex items-center justify-between px-3 py-2 rounded-lg text-xs font-mono transition-all duration-200 ${
+                        isActive
+                          ? 'bg-ink text-white shadow-xs font-semibold'
+                          : 'bg-neutral-50/70 text-neutral-600 hover:bg-neutral-100/80'
+                      }`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <Icon className={`h-3.5 w-3.5 ${isActive ? 'text-white' : 'text-neutral-500'}`} />
+                        <span>{String(idx + 1).padStart(2, '0')}. {feat.badge}</span>
+                      </div>
+                      <span className="text-[11px] opacity-80">
+                        {isActive ? (isZh ? '联动激活' : 'ACTIVE') : ''}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Background driver note */}
+            <div className="pt-2 text-[11px] font-mono text-neutral-600 leading-relaxed border-t border-hairline">
+              💡 {isZh
+                ? '提示：背景中的 DG16 坐标图正在随页面滚动实时调整高亮图元与壁厚标尺。'
+                : 'Notice: Background DG16 CAD blueprint highlights and tolerance gauges adapt in real time as you scroll.'}
             </div>
           </div>
         </div>
 
-        {/* Right: Scrolling feature cards */}
-        <div className="lg:col-span-7 space-y-8 lg:space-y-12">
-          {features.map((feature, idx) => (
-            <div
-              key={feature.id}
-              ref={(el) => { cardsRef.current[idx] = el; }}
-              className="group rounded-2xl border border-hairline bg-white p-6 sm:p-8 shadow-xs hover:shadow-md transition-shadow duration-300"
-            >
-              <div className="space-y-4">
-                {/* Badge row */}
-                <div className="flex items-center gap-3">
-                  <span className="font-mono text-[11px] font-bold px-2.5 py-1 rounded-md bg-ink text-white">
-                    {String(idx + 1).padStart(2, '0')}
-                  </span>
-                  <span className="font-mono text-[11px] text-neutral-400 font-medium uppercase tracking-wider">
-                    {feature.badge}
-                  </span>
-                </div>
+        {/* Right: Scrolling Feature Cards */}
+        <div className="lg:col-span-8 space-y-8">
+          {features.map((feature, idx) => {
+            const Icon = feature.icon;
+            const isCurrent = idx === activeStep;
 
-                {/* Title */}
-                <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-ink leading-snug">
-                  {feature.title}
-                </h3>
+            return (
+              <div
+                key={feature.id}
+                ref={(el) => {
+                  cardsRef.current[idx] = el;
+                }}
+                data-feature-index={String(idx)}
+                className={`group rounded-2xl p-7 sm:p-9 transition-all duration-300 border ${
+                  isCurrent
+                    ? 'border-ink/70 bg-white/95 shadow-md ring-1 ring-black/5'
+                    : 'border-hairline/80 bg-white/80 backdrop-blur-md shadow-xs hover:border-neutral-400'
+                }`}
+              >
+                <div className="space-y-5">
+                  {/* Card top badge row */}
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <span className="inline-flex items-center justify-center h-8 w-8 rounded-lg bg-ink text-white font-mono text-xs font-bold">
+                        {String(idx + 1).padStart(2, '0')}
+                      </span>
+                      <span className="font-mono text-xs font-bold text-neutral-500 tracking-wider">
+                        PRD-{feature.badge}
+                      </span>
+                    </div>
 
-                {/* Description */}
-                <p className="text-sm text-neutral-600 leading-relaxed font-light">
-                  {feature.desc}
-                </p>
+                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono bg-surface-soft text-neutral-700 border border-hairline">
+                      <Icon className="h-3.5 w-3.5" />
+                      <span>{feature.badge}</span>
+                    </span>
+                  </div>
 
-                {/* PRD spec tag */}
-                <div className="pt-2">
-                  <span className="inline-flex items-center px-3 py-1 rounded-full text-[11px] font-mono font-medium bg-neutral-100 text-neutral-600 border border-hairline/60">
-                    {feature.prdRef}
-                  </span>
+                  {/* Title & Description */}
+                  <div className="space-y-2">
+                    <h3 className="text-xl sm:text-2xl font-bold tracking-tight text-ink">
+                      {feature.title}
+                    </h3>
+                    <p className="text-sm sm:text-base text-neutral-700 font-light leading-relaxed">
+                      {feature.desc}
+                    </p>
+                  </div>
+
+                  {/* Technical Spec Metrics Box */}
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+                    {feature.specDetails.map((spec) => (
+                      <div
+                        key={spec.label}
+                        className="rounded-lg bg-surface-soft/60 border border-hairline/60 p-3"
+                      >
+                        <p className="text-[10px] font-mono uppercase text-neutral-500">
+                          {spec.label}
+                        </p>
+                        <p className="text-xs font-mono font-bold text-ink mt-0.5">
+                          {spec.val}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* PRD Reference Tag */}
+                  <div className="pt-2 flex items-center justify-between text-xs font-mono text-neutral-500 border-t border-hairline/60">
+                    <span className="flex items-center gap-1.5">
+                      <span className="h-1.5 w-1.5 rounded-full bg-neutral-400" />
+                      <span>{feature.prdRef}</span>
+                    </span>
+                    <span className="text-[11px] text-neutral-500 hidden sm:inline">
+                      {feature.highlightTarget}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-
-          {/* Spacer for scroll room */}
-          <div className="h-20" />
+            );
+          })}
         </div>
+
       </div>
     </section>
   );

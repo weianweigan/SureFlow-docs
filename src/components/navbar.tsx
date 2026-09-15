@@ -24,6 +24,7 @@ export const Navbar: React.FC<NavbarProps> = ({ lang }) => {
 
   const navLinks = [
     { href: `/${lang}/docs`, label: t.nav.docs },
+    { href: `/${lang}/dg16-guide`, label: (t.nav as Record<string, string>).dg16Guide || 'DG16 Guide' },
     { href: `/${lang}/download`, label: t.nav.download },
     { href: `/${lang}/open-source`, label: t.nav.openSource },
   ];

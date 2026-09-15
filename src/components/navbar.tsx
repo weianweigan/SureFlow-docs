@@ -2,7 +2,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { type Locale, DICTIONARY } from '@/lib/i18n';
 import { Github, Globe, Download } from 'lucide-react';
@@ -24,8 +23,6 @@ export const Navbar: React.FC<NavbarProps> = ({ lang }) => {
   };
 
   const navLinks = [
-    { href: `/${lang}/features`, label: t.nav.features },
-    { href: `/${lang}/cases`, label: t.nav.cases },
     { href: `/${lang}/docs`, label: t.nav.docs },
     { href: `/${lang}/download`, label: t.nav.download },
     { href: `/${lang}/open-source`, label: t.nav.openSource },

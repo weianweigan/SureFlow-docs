@@ -41,17 +41,12 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
           {/* Links 1 */}
           <div>
             <h4 className="font-mono text-xs uppercase tracking-wider text-neutral-500 mb-4 font-semibold">
-              {lang === 'zh' ? '产品与资源' : 'Products & Resources'}
+              {lang === 'zh' ? '文档与下载' : 'Docs & Download'}
             </h4>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link href={`/${lang}/features`} className="text-ink hover:underline">
-                  {t.nav.features}
-                </Link>
-              </li>
-              <li>
-                <Link href={`/${lang}/cases`} className="text-ink hover:underline">
-                  {t.nav.cases}
+                <Link href={`/${lang}/docs`} className="text-ink hover:underline">
+                  {t.nav.docs}
                 </Link>
               </li>
               <li>
@@ -60,9 +55,14 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
                 </Link>
               </li>
               <li>
-                <Link href={`/${lang}/docs`} className="text-ink hover:underline">
-                  {t.nav.docs}
-                </Link>
+                <a
+                  href="https://github.com/weianweigan/SureFlow/releases"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-ink hover:underline"
+                >
+                  GitHub Releases
+                </a>
               </li>
             </ul>
           </div>
@@ -70,7 +70,7 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
           {/* Links 2 */}
           <div>
             <h4 className="font-mono text-xs uppercase tracking-wider text-neutral-500 mb-4 font-semibold">
-              {lang === 'zh' ? '开源生态' : 'Ecosystem'}
+              {lang === 'zh' ? '开源社区' : 'Community'}
             </h4>
             <ul className="space-y-3 text-sm">
               <li>

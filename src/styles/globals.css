@@ -1,3 +1,5 @@
+@import 'katex/dist/katex.min.css';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,8 +7,9 @@
 @layer base {
   body {
     background-color: #ffffff;
-    color: #000000;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #111827;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -36,16 +39,17 @@
 
 /* Markdown 文档排版样式 */
 .markdown-body {
-  color: #1a1a1a;
-  line-height: 1.75;
-  font-size: 0.9375rem;
+  color: #18181b;
+  line-height: 1.8;
+  font-size: 0.95rem;
+  font-weight: 400;
 }
 
 .markdown-body p {
   margin-top: 1rem;
   margin-bottom: 1rem;
-  font-weight: 300;
-  color: #262626;
+  font-weight: 400;
+  color: #18181b;
   line-height: 1.8;
 }
 
@@ -126,9 +130,9 @@
 .markdown-body li {
   margin-top: 0.35rem;
   margin-bottom: 0.35rem;
-  color: #262626;
-  line-height: 1.7;
-  font-weight: 300;
+  color: #18181b;
+  line-height: 1.75;
+  font-weight: 400;
 }
 
 .markdown-body li > strong {
@@ -224,4 +228,20 @@
 
 .markdown-body tr:hover td {
   background-color: #fafafa;
+}
+
+/* KaTeX 数学公式渲染优化 */
+.markdown-body .katex-display {
+  margin: 1.5rem 0;
+  padding: 1rem 1.25rem;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.markdown-body .katex {
+  font-size: 1.05em;
+  color: #0f172a;
 }

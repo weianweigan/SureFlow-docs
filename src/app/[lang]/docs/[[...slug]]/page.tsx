@@ -6,6 +6,9 @@ import { getDocContent } from '@/lib/mdx';
 import { DOC_NAVIGATION } from '@/lib/docs-data';
 import { ChevronRight, ArrowLeft, ArrowRight, Bookmark, Hash } from 'lucide-react';
 import { marked } from 'marked';
+import markedKatex from 'marked-katex-extension';
+
+marked.use(markedKatex({ throwOnError: false, nonStandard: true }));
 
 interface DocPageProps {
   params: Promise<{
@@ -64,7 +67,7 @@ export default async function DocPage({ params }: DocPageProps) {
             {doc.title}
           </h1>
           {doc.description && (
-            <p className="mt-3 text-base sm:text-lg text-neutral-600 leading-relaxed font-light">
+            <p className="mt-3 text-base sm:text-lg text-neutral-700 leading-relaxed font-normal">
               {doc.description}
             </p>
           )}
@@ -127,7 +130,7 @@ export default async function DocPage({ params }: DocPageProps) {
               >
                 <a
                   href={`#${item.id}`}
-                  className="text-neutral-600 hover:text-ink hover:underline transition block py-0.5 line-clamp-1 font-light"
+                  className="text-neutral-700 hover:text-ink hover:underline transition block py-0.5 line-clamp-1 font-normal"
                 >
                   {item.title}
                 </a>

@@ -74,7 +74,7 @@ export default async function HomePage({ params }: HomePageProps) {
         </div>
       </section>
 
-      {/* 2. 主设计工作台实机三维布孔视口展示 */}
+      {/* 2. 主设计工作台三维建模界面展示 */}
       <section className="relative z-10 mx-auto max-w-7xl px-4 py-16 sm:px-6 lg:px-8 border-t border-hairline-soft/80">
         <div className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
@@ -91,7 +91,7 @@ export default async function HomePage({ params }: HomePageProps) {
             </p>
           </div>
 
-          {/* 实机截图画框 */}
+          {/* 桌面端设计界面画框 */}
           <div className="rounded-2xl border border-hairline/80 bg-white/80 backdrop-blur-md p-3 sm:p-5 shadow-sm space-y-3">
             <div className="flex items-center justify-between px-2 text-xs font-mono text-neutral-600">
               <div className="flex items-center gap-2">
@@ -100,12 +100,14 @@ export default async function HomePage({ params }: HomePageProps) {
                 <span className="h-2.5 w-2.5 rounded-full bg-emerald-400 inline-block" />
                 <span className="ml-2 font-medium text-ink">{t.uiSection.caption}</span>
               </div>
-              <span className="hidden sm:inline">Three.js / CSG 布尔切削视口</span>
+              <span className="hidden sm:inline">
+                {lang === 'zh' ? 'Three.js / CSG 实时布尔切削' : 'Three.js / Realtime CSG Boolean'}
+              </span>
             </div>
             <div className="overflow-hidden rounded-xl border border-hairline bg-canvas shadow-2xs">
               <img
                 src={mainUiSrc}
-                alt="SureFlow Studio 3D Viewport Interface"
+                alt="SureFlow Studio 3D Interface"
                 className="w-full h-auto object-cover"
               />
             </div>

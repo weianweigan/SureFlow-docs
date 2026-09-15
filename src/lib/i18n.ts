@@ -22,11 +22,11 @@ export const DICTIONARY = {
       badges: ['STEP AP214', 'OpenCASCADE 内核', '毫秒级干涉检查', '离线桌面原生'],
     },
     uiSection: {
-      tag: '工作台实机视口',
+      tag: '三维设计工作区',
       title: '清晰直观的三维布孔与装配工作流',
       description:
         '支持规则长方体与导入 STEP 异形外形作为基准几何。可直接在阀块各安装面上拾取坐标、拖拽布孔，实时呈现孔道空间走向与半透明截面交贯状态。',
-      caption: 'SureFlow 主设计工作台实机三维布孔视图',
+      caption: 'SureFlow 桌面端主设计界面',
     },
     workflowSection: {
       tag: '核心设计链路',
@@ -129,11 +129,11 @@ export const DICTIONARY = {
       badges: ['STEP AP214', 'OpenCASCADE BRep', 'Live Clearance Check', 'Offline Native'],
     },
     uiSection: {
-      tag: 'Interactive Studio Viewport',
+      tag: '3D Design Workspace',
       title: 'Intuitive 3D Cavity Placement & Assembly Workflow',
       description:
         'Define regular blocks or import external STEP models as reference geometry. Pick coordinates directly on mounting faces with real-time translucent section views.',
-      caption: 'SureFlow Studio actual 3D manifold design interface',
+      caption: 'SureFlow Desktop 3D Design Interface',
     },
     workflowSection: {
       tag: 'Engineering Workflow',

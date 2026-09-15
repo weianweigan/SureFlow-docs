@@ -25,7 +25,6 @@ export const Navbar: React.FC<NavbarProps> = ({ lang }) => {
   const navLinks = [
     { href: `/${lang}/docs`, label: t.nav.docs },
     { href: `/${lang}/download`, label: t.nav.download },
-    { href: `/${lang}/open-source`, label: t.nav.openSource },
   ];
 
   return (

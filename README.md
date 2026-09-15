@@ -81,10 +81,7 @@ npx wrangler pages deploy out --project-name=sureflow-docs
 
 ## 路由映射
 
-- `/zh`：中文官网首页（Hero 定位、3D 视口、核心指标、特性速览、CTA）
+- `/zh`：中文官网首页（极简工程定位、桌面端设计界面、孔腔库、架构说明）
 - `/en`：英文官网首页
-- `/zh/features`、`/en/features`：产品能力专题（AI 拓扑、壁厚校验、STEP 实体导出）
-- `/zh/cases`、`/en/cases`：工程对比案例（250kN 锻压机、风电机组阀块）
-- `/zh/download`、`/en/download`：下载中心（连接 `sureflow-update.hy3d.space` 接口）
-- `/zh/open-source`、`/en/open-source`：开源生态与社区治理
+- `/zh/download`、`/en/download`：下载中心（支持直接安装包下载、GitHub Releases 与更新日志）
 - `/zh/docs`、`/en/docs`：技术文档中心

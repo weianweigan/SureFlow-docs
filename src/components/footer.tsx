@@ -74,9 +74,14 @@ export const Footer: React.FC<FooterProps> = ({ lang }) => {
             </h4>
             <ul className="space-y-3 text-sm">
               <li>
-                <Link href={`/${lang}/open-source`} className="text-ink hover:underline">
-                  {t.nav.openSource}
-                </Link>
+                <a
+                  href="https://github.com/weianweigan/SureFlow/releases"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-ink hover:underline"
+                >
+                  {lang === 'zh' ? '版本发布 (Releases)' : 'Releases'}
+                </a>
               </li>
               <li>
                 <a

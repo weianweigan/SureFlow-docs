@@ -17,7 +17,8 @@ import {
   Copy,
   ExternalLink,
   ShieldCheck,
-  Server,
+  Github,
+  ScrollText,
 } from 'lucide-react';
 
 interface DownloadClientProps {
@@ -53,16 +54,37 @@ export const DownloadClient: React.FC<DownloadClientProps> = ({ lang }) => {
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-12">
         {/* 头部标题 */}
         <div className="text-center max-w-3xl mx-auto space-y-4">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-surface-soft text-ink text-xs font-mono font-medium">
-            <Server className="h-3.5 w-3.5" />
-            <span>Cloudflare Edge 分发网络</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-pill bg-white border border-hairline text-neutral-700 text-xs font-mono font-medium shadow-2xs">
+            <span className="h-2 w-2 rounded-full bg-semantic-success" />
+            <span>{lang === 'zh' ? '官方发行版 • 离线独立运行' : 'Official Desktop Release • Standalone Native'}</span>
           </div>
           <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-ink">
             {t.downloadPage.title}
           </h1>
-          <p className="text-lg text-neutral-700 font-light">
+          <p className="text-base sm:text-lg text-neutral-600 font-light max-w-2xl mx-auto">
             {t.downloadPage.subtitle}
           </p>
+
+          {/* 快捷入口：去 GitHub Releases 下载 + 查看更新日志 */}
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <a
+              href="https://github.com/weianweigan/SureFlow/releases"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2 rounded-pill bg-white border border-hairline hover:border-black text-ink text-xs font-mono font-medium shadow-2xs transition"
+            >
+              <Github className="h-3.5 w-3.5 text-ink" />
+              <span>{t.downloadPage.githubReleasesBtn}</span>
+              <ExternalLink className="h-3 w-3 text-neutral-400" />
+            </a>
+            <a
+              href="#release-notes"
+              className="inline-flex items-center gap-2 px-5 py-2 rounded-pill bg-white border border-hairline hover:border-black text-ink text-xs font-mono font-medium shadow-2xs transition"
+            >
+              <ScrollText className="h-3.5 w-3.5 text-neutral-700" />
+              <span>{t.downloadPage.changelogBtn}</span>
+            </a>
+          </div>
         </div>
 
         {/* 平台安装包卡片 */}
@@ -295,19 +317,53 @@ export const DownloadClient: React.FC<DownloadClientProps> = ({ lang }) => {
         </div>
 
         {/* 更新说明与 Release Notes */}
-        <div className="p-8 sm:p-10 rounded-lg border border-hairline bg-canvas space-y-4">
-          <h3 className="text-lg font-bold text-ink">
-            {t.downloadPage.releaseNotesTitle}
-          </h3>
-          <div className="bg-surface-soft border border-hairline-soft rounded-md p-6 text-sm text-neutral-800 font-mono whitespace-pre-line leading-relaxed">
-            {winRelease?.releaseNotes || macRelease?.releaseNotes || '正在从 sureflow-update.hy3d.space 获取最新发布日志...'}
+        <div id="release-notes" className="p-8 sm:p-10 rounded-2xl border border-hairline bg-white shadow-xs space-y-4 scroll-mt-24">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-hairline pb-4">
+            <div className="flex items-center gap-2.5">
+              <ScrollText className="h-5 w-5 text-neutral-700" />
+              <h3 className="text-lg font-bold text-ink">
+                {t.downloadPage.releaseNotesTitle}
+              </h3>
+            </div>
+            <a
+              href="https://github.com/weianweigan/SureFlow/releases"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-neutral-600 hover:text-ink transition"
+            >
+              <span>{t.downloadPage.viewFullChangelog}</span>
+              <ExternalLink className="h-3 w-3" />
+            </a>
+          </div>
+          <div className="bg-surface-soft border border-hairline-soft rounded-xl p-6 text-sm text-neutral-800 font-mono whitespace-pre-line leading-relaxed">
+            {winRelease?.releaseNotes || macRelease?.releaseNotes || (lang === 'zh' ? '正在获取最新发布说明，您也可以直接前往 GitHub Releases 查阅。' : 'Fetching latest release notes, or visit GitHub Releases directly.')}
           </div>
         </div>
 
-        {/* 提示条 */}
-        <div className="flex items-center gap-3 p-4 rounded-pill bg-block-lime border border-black/10 text-xs text-ink">
-          <Server className="h-4 w-4 shrink-0 text-ink" />
-          <span>{t.downloadPage.proxyNotice}</span>
+        {/* GitHub Releases 统一入口 */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-6 sm:p-8 rounded-2xl bg-surface-soft border border-hairline">
+          <div className="space-y-1 text-center sm:text-left">
+            <h4 className="text-sm font-bold text-ink">
+              {lang === 'zh' ? '需要查看全部历史版本或源码？' : 'Need past releases or source code?'}
+            </h4>
+            <p className="text-xs text-neutral-600 font-light">
+              {lang === 'zh'
+                ? '所有发布包、历史版本归档、各版本更新日志与源码均在 GitHub Releases 开放提供。'
+                : 'All binary releases, historical tags, version changelogs, and source code are available on GitHub Releases.'}
+            </p>
+          </div>
+          <div className="flex items-center gap-3 shrink-0">
+            <a
+              href="https://github.com/weianweigan/SureFlow/releases"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-pill bg-ink hover:bg-neutral-800 text-white text-xs font-mono font-medium shadow-xs transition"
+            >
+              <Github className="h-3.5 w-3.5" />
+              <span>GitHub Releases</span>
+              <ExternalLink className="h-3 w-3" />
+            </a>
+          </div>
         </div>
       </div>
     </div>

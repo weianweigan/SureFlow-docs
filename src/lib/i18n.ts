@@ -68,8 +68,13 @@ export const DICTIONARY = {
     },
     downloadPage: {
       title: '下载 SureFlow 客户端',
-      subtitle: '通过 Cloudflare 边缘分发网络，获取最新官方发布的稳定安装包',
+      subtitle: '获取最新官方发布的稳定安装包，支持 Windows 与 macOS 原生运行',
       autoDetectPrompt: '已为您匹配适合的安装包：',
+      githubReleasesBtn: '前往 GitHub Releases 下载',
+      githubReleasesDesc: '在 GitHub Releases 查看所有历史版本与安装包资产',
+      changelogBtn: '查看版本更新日志',
+      changelogDesc: '了解详细功能更新、优化与 Bug 修复记录',
+      viewFullChangelog: '在 GitHub Releases 查看完整更新记录与历史日志',
       winCard: {
         title: 'Windows',
         arch: 'x64 (Windows 10 / 11 64位)',
@@ -90,21 +95,6 @@ export const DICTIONARY = {
       },
       checksumTitle: '安装包 SHA-512 安全校验值：',
       releaseNotesTitle: '最新版本更新说明：',
-      proxyNotice: '所有安装包均通过 sureflow-update.hy3d.space 边缘反向代理节点统一缓存与加速下载。',
-    },
-    openSourcePage: {
-      title: '开放透明的工业软件生态',
-      subtitle: '以严谨的工程态度，共同推进工业基础软件与标准格式互通',
-      licenseTitle: '开源许可证',
-      licenseDesc: 'SureFlow 遵循公开透明的开源协议，保障开发者与企业用户的自由使用与技术延续性。',
-      repoTitle: '主仓库与源代码',
-      repoDesc: '随时在 GitHub 上查看源码、提交 Pull Request 或反馈问题。',
-      links: {
-        githubRepo: 'GitHub 仓库 (weianweigan/SureFlow)',
-        issues: '问题反馈与建议 (Issues)',
-        contribute: '贡献者开发指南',
-        releases: 'GitHub Releases 归档',
-      },
     },
     footer: {
       rights: '© 2026 SureFlow Project. All rights reserved.',
@@ -175,8 +165,13 @@ export const DICTIONARY = {
     },
     downloadPage: {
       title: 'Download SureFlow Desktop Client',
-      subtitle: 'Fast global CDN delivery via Cloudflare Edge network for the latest official installers',
+      subtitle: 'Get the latest official desktop releases for Windows and macOS with native hardware acceleration',
       autoDetectPrompt: 'Recommended installer for your detected operating system:',
+      githubReleasesBtn: 'Download on GitHub Releases',
+      githubReleasesDesc: 'Browse all official release tags, changelogs, and binary assets on GitHub',
+      changelogBtn: 'View Release Changelog',
+      changelogDesc: 'Read detailed feature additions, performance updates, and bug fixes',
+      viewFullChangelog: 'View Full Changelog & Release Notes on GitHub Releases',
       winCard: {
         title: 'Windows',
         arch: 'x64 (Windows 10 / 11 64-bit)',
@@ -197,21 +192,6 @@ export const DICTIONARY = {
       },
       checksumTitle: 'Installer SHA-512 Checksum Verification:',
       releaseNotesTitle: 'Latest Release Notes:',
-      proxyNotice: 'All installation binaries are cached and accelerated globally via sureflow-update.hy3d.space edge proxy.',
-    },
-    openSourcePage: {
-      title: 'Open & Transparent Industrial CAD Ecosystem',
-      subtitle: 'Advancing open-source CAE/CAD foundations for engineering communities worldwide',
-      licenseTitle: 'Core License',
-      licenseDesc: 'SureFlow embraces modern open-source licensing to ensure engineering and commercial safety.',
-      repoTitle: 'Source Repository & Community',
-      repoDesc: 'Star, fork, submit pull requests, or share ideas directly on GitHub.',
-      links: {
-        githubRepo: 'GitHub Repository (weianweigan/SureFlow)',
-        issues: 'Bug Reports & Feature Requests (Issues)',
-        contribute: 'Contribution Guide',
-        releases: 'GitHub Releases Archive',
-      },
     },
     footer: {
       rights: '© 2026 SureFlow Project. All rights reserved.',

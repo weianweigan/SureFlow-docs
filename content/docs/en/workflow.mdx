@@ -1,14 +1,75 @@
 ---
-title: Engineering Workflow
-description: Master the 5-stage closed-loop manifold design workflow
+title: Hydraulic Design Workflow
+description: Master the 5-phase engineering workflow from schematic mapping to manufacturing verification
 ---
 
-# Complete Engineering Workflow
+# Hydraulic Manifold Engineering Workflow
 
-SureFlow codifies decades of mechanical engineering practices into an intuitive 5-phase loop:
+SureFlow codifies fluid power design standards into an intuitive 5-phase engineering closed loop.
 
-1. **System & Flow Specification**: Defining operating pressures, flow limits, and sizing channel diameters;
-2. **Component Placement**: Layout of directional valves, proportional reliefs, and pressure test points with clearance for wrenches and cables;
-3. **Internal Channel Routing**: Dual mode: automated AI topology + manual coordinate plane guide;
-4. **Process Plugs**: Automatic counter-bores, thread callouts, and O-ring seal seating;
-5. **Manufacturing Verification**: Verifying deep-hole aspect ratios ($L/D$) and generating G-code compatible hole schedules.
+---
+
+## Phase 1: Schematic Requirements & Port Sizing
+
+Prior to cavity placement, analyze the hydraulic schematic to identify pressure ratings and flow rates:
+
+- **Port Semantic Standards**:
+  - `P` (Pump): High-pressure supply line (typically 16–31.5 MPa; up to 70 MPa in ultra-high pressure applications);
+  - `T` (Tank): Low-pressure return line (typically ≤ 1.6 MPa);
+  - `A / B`: Actuator service workports;
+  - `X / Y`: External pilot control and internal case drain lines;
+- **Recommended Fluid Flow Velocity Standards**:
+
+| Line Function | Recommended Velocity | Notes & Design Rules |
+| :--- | :--- | :--- |
+| **Suction Lines** | 0.5 ~ 1.5 m/s | Prevents cavitation and pump starvation |
+| **Pressure Supply (P)** | 3.0 ~ 5.5 m/s | Balances line head loss and block envelope volume |
+| **Tank Return (T)** | 1.5 ~ 2.5 m/s | Minimizes backpressure and fluid heating |
+| **Pilot / Case Drain (X/Y)** | 1.0 ~ 3.0 m/s | Ensures rapid valve spool shifting response |
+
+---
+
+## Phase 2: Stock Sizing & Component Layout
+
+1. **Compact Layout vs. Tooling Ergonomics**:
+   - Spacing between adjacent valves must account not only for mounting bolt clearance, but also for hex wrench socket engagement and solenoid coil electrical connector clearance (recommended net clearance ≥ 15 mm);
+2. **Mounting Face Partitioning**:
+   - **Top Face (+Z)**: Reserved for directional and proportional valves requiring electrical connections and frequent commissioning;
+   - **Bottom Face (-Z)**: Mounts to equipment baseplates or hydraulic reservoirs; suited for main P and T flange connections;
+   - **Lateral Faces (±X, ±Y)**: Ideal for screw-in cartridge reliefs, counterbalance valves, checks, and test points.
+
+---
+
+## Phase 3: Spatial Channel Routing & Intersections
+
+1. **Orthogonal Intersections**:
+   - Ensure connecting bores intersect at 90° whenever possible. Orthogonal intersections create symmetrical elliptical cutting profiles, prevent drill bit wander, and minimize local eddy turbulences;
+2. **Effective Cross-Sectional Area**:
+   - Maintain intersection areas at least equal to the smaller bore's nominal cross-section to eliminate unwanted throttling.
+
+---
+
+## Phase 4: Construction Plugs & Sealing Types
+
+When internal passages cannot connect directly from one side, cross-drilling construction holes are required:
+
+- **SAE Straight Thread O-Ring Plugs (SAE J1926 / ISO 11926)**:
+  - Seals via an elastomeric O-ring compressed into an engineered chamfer; ideal for high-pressure systems with repeatable serviceability;
+- **Metric Stud Ends (ISO 6149 / ED Ring)**:
+  - Standard throughout European and global machinery platforms;
+- **NPT Tapered Pipe Plugs**:
+  - Deforms threads for sealing; prone to overtightening stress fractures and galling; avoid in critical high-pressure manifolds.
+
+---
+
+## Phase 5: Manufacturing Process Check & Schedule Output
+
+- **Deep Hole Aspect Ratio ($L/D$) Audit**:
+  - Standard twist drills: recommended $L/D \le 10$;
+  - Gun drills / deep-hole tooling: up to $L/D \le 20$;
+  - Passages exceeding these limits should be split into opposing two-way cross drills;
+- **Clearance & Wall Thickness Validation**:
+  - Run the live clearance check to ensure all bore-to-bore clearances comply with allowable stress limits;
+- **Deliverables Generation**:
+  - Export standard ISO 10303 STEP solid models and CSV machining depth schedules for CNC Horizontal Machining Center (HMC) programming.
+

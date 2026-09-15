@@ -1,48 +1,59 @@
 ---
 title: 安装与系统要求
-description: 在 Windows 与 macOS (Apple Silicon) 上获取并安装 SureFlow
+description: 在 Windows 与 macOS (Apple Silicon) 上获取并安装 SureFlow 桌面客户端
 ---
 
-# 安装指南
+# 安装与运行环境
 
-SureFlow 提供官方签名或预编译的桌面端安装包，通过 Cloudflare 全球边缘分发网络提供下载。
+SureFlow 为桌面原生软件，直接调用计算机本地图形硬件与多核 CPU 进行实时三维渲染与布尔几何运算。工程数据完全保存在本地磁盘，保障企业技术资料安全。
 
 ---
 
 ## 系统配置要求
 
-| 平台 | 最低配置 | 推荐配置 |
+| 硬件/系统组件 | 最低配置 | 推荐配置 |
 | :--- | :--- | :--- |
-| **Windows** | Windows 10 64-bit (1809+) | Windows 11 64-bit，配备独立 GPU |
-| **macOS** | macOS Monterey (12.0+) | macOS Sonoma (14.0+) / Apple Silicon M2/M3/M4 |
-| **内存** | 8 GB RAM | 16 GB 或以上（处理复杂千孔级阀块推荐 32 GB） |
-| **存储空间** | 1 GB 可用固态硬盘空间 | 5 GB NVMe 缓存空间 |
+| **操作系统 (Windows)** | Windows 10 64-bit (版本 1809 及以上) | Windows 11 64-bit |
+| **操作系统 (macOS)** | macOS Monterey (12.0+) | macOS Sonoma (14.0+) 及以上 |
+| **处理器 (CPU)** | 4 核心 x64 或 Apple M 系列 | 8 核心及以上多核处理器 |
+| **显卡 (GPU)** | 支持 WebGL 2.0 / OpenGL 3.3 的集成显卡 | NVIDIA / AMD 独立显卡或 Apple M 系列统一内存 GPU |
+| **内存 (RAM)** | 8 GB RAM | 16 GB 或以上（处理多通径复杂大阀块建议 32 GB） |
+| **屏幕分辨率** | 1280 × 800 | 1920 × 1080（全高清）或更高分辨率显示器 |
+| **存储空间** | 1 GB 可用固态硬盘空间 | 5 GB 极速 SSD 空间（用于存放大型装配工程） |
 
 ---
 
-## 下载安装方式
+## 获取与安装方式
 
-### Windows 用户 (.exe)
+### Windows 用户 (`.exe`)
 
-1. 前往 [下载中心](/zh/download)，下载 `SureFlow-Setup-x.y.z.exe`；
-2. 双击安装程序，跟随向导完成安装；
-3. 首次启动将自动注册 `.sureflow` 工程文件与主流 STEP 格式关联；
-4. Windows 版本内置后台增量更新器，启动后每隔 4 小时静默核查 `sureflow-update.hy3d.space`。
+1. 前往 [下载中心](/zh/download) 或直接访问 [GitHub Releases](https://github.com/weianweigan/SureFlow/releases)；
+2. 下载最新的 `SureFlow-Setup-x.y.z.exe` 安装包；
+3. 双击运行安装向导，选择安装目录并完成安装；
+4. 启动 SureFlow，首次运行会自动关联 `.sureflow` 阀块工程文件。
 
-### macOS 用户 (.dmg)
+### macOS 用户 (`.dmg`)
 
 > [!NOTE]
-> 目前 macOS 官方安装包专注于 **Apple Silicon (M1/M2/M3/M4)** 系列芯片原生指令集，未对 Intel x86 架构生成旧版包。
+> 目前 macOS 官方安装包专注于 **Apple Silicon (M1/M2/M3/M4)** 原生架构优化，具备极佳的功耗控制与渲染流畅度。
 
-1. 在下载中心点击下载 `SureFlow-x.y.z-arm64.dmg`；
-2. 双击打开镜像，将 `SureFlow.app` 拖拽入 `Applications`（应用程序）目录；
-3. 如遇到系统未识别签名提示，可在系统设置中前往「隐私与安全性」点击「仍要打开」；
-4. 客户端内置手动与自动检查更新入口，确保随时获取最新流道优化算法。
+1. 在下载中心或 GitHub Releases 获取 `SureFlow-x.y.z-arm64.dmg` 磁盘镜像；
+2. 双击打开 `.dmg` 镜像，将 `SureFlow.app` 拖入系统的 `Applications`（应用程序）文件夹；
+3. 首次打开如遇到系统未信任签名提示：
+   - 前往 macOS **「系统设置」→「隐私与安全性」**；
+   - 在页面下方找到针对 SureFlow 的拦截提示，点击 **「仍要打开」** 即可。
 
 ---
 
-## 自动更新与代理服务
+## 离线工作与数据安全
 
-客户端启动及运行时通过通用更新通道与 `https://sureflow-update.hy3d.space/` 保持通信：
-- 更新服务采用 Cloudflare Worker 代理并缓存 GitHub Releases 发布的同名清单 `latest.yml` 与 `latest-mac.yml`；
-- 无需直连境外服务，保障国内与国际用户均享有毫秒级更新响应与高速下载带宽。
+- **100% 离线可用**：SureFlow 的几何切削引擎、孔腔数据库及 STEP 导出模块全部内置于本地客户端，不依赖远程云端算力；
+- **工业级数据私密**：阀块尺寸、油道走向、元件型号等商业设计参数均存储于用户本地的 `.sureflow` 工程或导出的 `.stp` 文件中，绝不向外部网络上传用户工程图纸。
+
+---
+
+## 软件版本检查与更新
+
+- **软件内检查**：在客户端主菜单中点击 **「帮助」→「检查更新」**，客户端将在联网状态下静默比对最新稳定发行版本；
+- **手动更新**：随时前往 [GitHub Releases](https://github.com/weianweigan/SureFlow/releases) 查阅各版本的变更日志（Changelog），下载新版本覆盖安装即可保持最新特性。
+

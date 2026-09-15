@@ -1,33 +1,59 @@
 ---
 title: Installation & Requirements
-description: System requirements and installation procedures for Windows and macOS
+description: System requirements, installation procedures, and offline operations for Windows and macOS
 ---
 
-# Installation Guide
+# Installation & System Requirements
 
-SureFlow distributions are distributed globally via Cloudflare Edge network proxies.
+SureFlow is a desktop-native application executing all 3D geometric cutting and CAD calculations directly on your local hardware. Engineering designs remain entirely on your local workstation for strict proprietary security.
 
 ---
 
 ## Hardware & System Requirements
 
-| OS | Minimum | Recommended |
+| Component | Minimum | Recommended |
 | :--- | :--- | :--- |
-| **Windows** | Windows 10 64-bit (1809+) | Windows 11 64-bit with dedicated GPU |
-| **macOS** | macOS Monterey (12.0+) | macOS Sonoma (14.0+) / Apple Silicon M2/M3/M4 |
-| **Memory** | 8 GB RAM | 16 GB+ (32 GB for blocks with 1000+ features) |
-| **Storage** | 1 GB free SSD space | 5 GB NVMe cache |
+| **Operating System (Windows)** | Windows 10 64-bit (Build 1809+) | Windows 11 64-bit |
+| **Operating System (macOS)** | macOS Monterey (12.0+) | macOS Sonoma (14.0+) or later |
+| **Processor (CPU)** | Quad-core x64 or Apple M-series | 8-core+ modern processor |
+| **Graphics (GPU)** | Integrated GPU supporting WebGL 2.0 / OpenGL 3.3 | Dedicated NVIDIA / AMD GPU or Apple Silicon unified GPU |
+| **Memory (RAM)** | 8 GB RAM | 16 GB or more (32 GB for massive multi-cavity manifolds) |
+| **Display Resolution** | 1280 × 800 | 1920 × 1080 (Full HD) or higher |
+| **Storage** | 1 GB available SSD space | 5 GB high-speed NVMe storage |
 
 ---
 
 ## Installation Steps
 
 ### Windows (.exe)
-1. Head to the [Download Center](/en/download) and download `SureFlow-Setup-x.y.z.exe`;
-2. Run the installer and follow on-screen prompts;
-3. SureFlow associates with `.sureflow` project files automatically.
+
+1. Navigate to the [Download Center](/en/download) or visit [GitHub Releases](https://github.com/weianweigan/SureFlow/releases);
+2. Download the latest `SureFlow-Setup-x.y.z.exe` installer;
+3. Double-click the installer and follow the setup wizard;
+4. Launch SureFlow; `.sureflow` project files are automatically associated with the application.
 
 ### macOS (.dmg)
-1. Download `SureFlow-x.y.z-arm64.dmg` tailored for Apple Silicon;
-2. Open the disk image and drag `SureFlow.app` into your Applications folder;
-3. If macOS Gatekeeper alerts about unsigned apps, allow it in **System Settings → Privacy & Security**.
+
+> [!NOTE]
+> Official macOS packages are natively compiled for **Apple Silicon (M1/M2/M3/M4)** architectures, ensuring maximum thermal efficiency and smooth viewport frame rates.
+
+1. Download `SureFlow-x.y.z-arm64.dmg` from the Download Center or GitHub Releases;
+2. Open the `.dmg` image and drag `SureFlow.app` into your **Applications** folder;
+3. If macOS Gatekeeper alerts about an unverified developer on initial launch:
+   - Open macOS **System Settings → Privacy & Security**;
+   - Scroll down to the Security section and click **Open Anyway** next to the SureFlow prompt.
+
+---
+
+## Offline Operation & Data Privacy
+
+- **100% Offline Capable**: All B-Rep geometric calculations, cavity databases, and STEP solids are computed locally on your CPU/GPU without cloud dependencies;
+- **Proprietary Engineering Security**: Your project files, manifold dimensions, flow routes, and proprietary component tags never leave your machine.
+
+---
+
+## Software Updates
+
+- **In-App Check**: Click **Help → Check for Updates** in the main menu to query for newer stable releases;
+- **Manual Updates**: Visit [GitHub Releases](https://github.com/weianweigan/SureFlow/releases) anytime to inspect detailed release notes and download update binaries.
+

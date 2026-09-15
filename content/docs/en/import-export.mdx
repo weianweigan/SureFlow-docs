@@ -1,16 +1,56 @@
 ---
 title: Import & Export Standards
-description: STEP CAD solid exchange, GLB WebGL assets, and machining schedules
+description: STEP AP203/AP214 CAD solid exchange, .sureflow project archive, and CNC drilling schedules
 ---
 
 # Import & Export Standards
 
-SureFlow offers seamless interoperability across both enterprise CAD suites and lightweight web environments.
+Powered by the industrial-grade OpenCASCADE (OCCT) geometry kernel, SureFlow adheres strictly to ISO data exchange standards to guarantee lossless interoperability between mainstream mechanical CAD suites and CNC manufacturing centers.
 
 ---
 
-## Export Formats
+## Export Formats & Manufacturing Deliverables
 
-- **STEP Solids (`.stp`, `.step`)**: ISO 10303-214 and 242 compliant solids with exact B-Rep cylindrical intersections for SolidWorks, NX, Creo, and CATIA.
-- **GLB / glTF 3D (`.glb`)**: Optimized PBR models for web viewers, design reviews, and AR inspection.
-- **Drilling Schedules (`.csv`, `.pdf`)**: Standardized tabular outputs covering port IDs, coordinates, approach vectors, diameters, and depths.
+### 1. STEP Solid Models (`.stp` / `.step`)
+
+- **Supported Standards**:
+  - **ISO 10303-214 (AP214)**: Widely adopted in automotive, general machinery, and heavy equipment; retains exact part solids, topology relations, and layer colors;
+  - **ISO 10303-203 (AP203)**: Universal boundary representation (B-Rep) solid standard ensuring maximum legacy CAD compatibility;
+- **Mathematical Precision**:
+  - Cavity cutting preserves true analytical surfaces (Cylinders, Cones, Tori) without polygonal mesh facet distortion;
+- **Downstream CAD Compatibility**:
+  - Exported STEP files open seamlessly in **SolidWorks**, **Siemens NX**, **PTC Creo**, **CATIA**, and **Autodesk Inventor** as native editable solids for assembly inclusion and 2D drafting with geometric tolerancing (GD&T).
+
+### 2. SureFlow Native Project Archive (`.sureflow`)
+
+- Preserves the full parametric modeling history:
+  - Manifold stock dimensions and material physical properties;
+  - Cavity instances, coordinate datum faces, and spatial positioning;
+  - Port semantic network (P, T, A, B, etc.) and fluid connectivity graphs;
+  - Custom safety wall thickness limits;
+- Ideal for project version control and collaborative team design iterations.
+
+### 3. CNC Drilling Schedules (`.csv` / `.xlsx`)
+
+Tabular manufacturing outputs designed for machine shop programmers and HMC operators, including:
+- **Hole / Cavity ID**: e.g., `Hole-01`, `Cavity-DG16-01`;
+- **Circuit Semantic**: e.g., `P_SUPPLY`, `T_RETURN`;
+- **Machining Face**: `+Z`, `-Z`, `+X`, `-X`, etc.;
+- **Face Coordinates**: 2D origin $(X, Y)$ on the mounting face and 3D absolute spatial coordinates;
+- **Drilling Vector**: Normal perpendicular or angular spatial direction;
+- **Tooling Steps**: Drill bit diameter $D$, effective bore depth $H$, spotface counterbore specs (thread tap drill, counterbore step, O-ring chamfer), and recommended speed/feed guidelines.
+
+---
+
+## Import & Reference Geometry
+
+### 1. External Enclosure Reference Models (`.step` / `.stp`)
+
+- When fitting a hydraulic manifold into tight host equipment (such as excavator upper carriages, injection molding clamp bases, or wind turbine nacelles), engineers can import adjacent structural STEP models;
+- Set external models as translucent reference bodies to intuitively avoid collision between external framework and manifold valve ports.
+
+### 2. Custom Cavity Template Extension (`.json` + 2D Profile)
+
+- Allows enterprise engineering teams to add proprietary valve cavities;
+- Define step diameters, bore depth tolerances, thread specifications, and O-ring groove dimensions.
+

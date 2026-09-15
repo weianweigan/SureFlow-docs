@@ -1,43 +1,75 @@
 ---
 title: 5-Minute Quick Start
-description: Build your first directional valve manifold with AI channel routing
+description: Build your first directional valve manifold with 3D cavity placement and live clearance verification
 ---
 
 # 5-Minute Quick Start
 
-Learn how to create a standard ISO 4401-03 (NG6) directional valve block in under 5 minutes.
+This tutorial guides you through designing a standard **ISO 4401-03 (NG6)** directional control valve manifold block, routing fluid passages, and performing live clearance verification in 5 minutes.
+
+---
+
+## Viewport Navigation Gestures
+
+Familiarize yourself with standard 3D mouse controls before beginning layout:
+
+| Gesture | Response | Purpose |
+| :--- | :--- | :--- |
+| **Left Click** | Pick Face / Select Cavity | Select mounting faces or specific bores to adjust coordinates and depth |
+| **Right / Middle Click + Drag** | Free 3D Orbit | Rotate 360° to inspect manifold faces and translucent internal passages |
+| **Mouse Wheel Scroll** | Smooth Zoom | Zoom in to check intersection ellipses or zoom out for an overview |
+| **Shift + Middle Click + Drag** | Viewport Pan | Translate the viewport center laterally |
+| **Double Click / Spacebar** | Reset Camera | Instantly return to standard isometric perspective |
 
 ---
 
 ## Step 1: Create Project & Define Stock Size
-1. Launch SureFlow and click **New Project**;
-2. Select base material: `Forged 45# Steel` (or `6061-T6 Aluminum`);
-3. Enter stock dimensions ($X = 120\text{ mm}$, $Y = 100\text{ mm}$, $Z = 80\text{ mm}$);
-4. An interactive 3D solid is instantly generated in the viewport.
+
+1. Launch SureFlow and select **New Project** on the welcome screen;
+2. Choose base material: `Forged 45# Steel` (system defaults to standard allowable tensile stress and density; `6061-T6 Aluminum` or `Ductile Iron QT500` also available);
+3. Enter raw stock dimensions (Length × Width × Height):
+   - Length $X$ = **120 mm**
+   - Width $Y$ = **100 mm**
+   - Height $Z$ = **80 mm**
+4. Click **Create**; a metallic 3D rectangular solid is instantly generated in the viewport.
 
 ---
 
-## Step 2: Place Standard Valve Cavity
-1. Open the **Standard Component Library** on the left panel;
-2. Under `ISO 4401`, drag `ISO 4401-03 (CETOP 03 / NG6)` onto the **top face (+Z)**;
-3. Center coordinates to $(X=60, Y=50)$;
-4. Four mounting bolt holes and four service ports (`P`, `T`, `A`, `B`) will be generated.
+## Step 2: Place Standard ISO 4401 Valve Footprint
+
+1. Expand the **Standard Cavity Library** in the left toolbox;
+2. Navigate to `Subplate Mounting Patterns` and select `ISO 4401-03 (CETOP 03 / NG6)`;
+3. Drag the footprint onto the manifold **Top Face (+Z)**;
+4. In the Inspector panel, center the placement coordinates to $X = 60\text{ mm}$, $Y = 50\text{ mm}$;
+5. SureFlow automatically cuts 4 bolt holes and 4 main port counterbores: `P` (Inlet), `T` (Tank), `A` (Workport A), and `B` (Workport B).
 
 ---
 
-## Step 3: Add Service Ports
-1. Select the bottom or side face;
-2. Add two `G 3/8"` threaded ports: $P_0$ (Inlet) and $T_0$ (Tank).
+## Step 3: Add Threaded Service Ports
+
+1. Orbit the view to a lateral face (such as the -X or -Y face);
+2. From the cavity library under `Threaded Ports`, drag a `G 3/8" (BSPP)` straight thread port onto the face;
+3. Position service ports $P_0$ and $T_0$:
+   - Configure coordinates and drilling depths (e.g., 45 mm depth);
+   - The viewport displays translucent cylinders illustrating channel directions in real time.
 
 ---
 
-## Step 4: AI Channel Auto-Routing
-1. Click **AI Auto Route** on the top toolbar;
-2. Specify connections: $P_0 \rightarrow P$ and $T_0 \rightarrow T$;
-3. Click **Execute**. The internal kernel routes orthogonal shortest paths and adds necessary process plugs in seconds.
+## Step 4: Channel Intersections & Construction Plugs
+
+1. Adjust the depth of top port `P` and side port $P_0$ so they intersect orthogonally inside the manifold;
+2. When two ports are on different spatial planes:
+   - Introduce an external cross-drilling construction hole;
+   - Terminate the opening with a standard `SAE` or `Metric` threaded construction plug (Plugging Head);
+3. The viewport calculates the intersection ellipse and highlights fluid flow continuity.
 
 ---
 
-## Step 5: Verify & Export
-1. Check the **Rules Inspector**: 0 clearance violations, safe wall thickness $> 5.2\text{ mm}$;
-2. Click **Export** and choose **STEP Solid (.stp)** to save.
+## Step 5: Verify Clearances & Export STEP Solid
+
+1. Inspect the **Rules & Geometry Inspector**:
+   - **Minimum Wall Thickness**: Displays the absolute closest Euclidean distance between any bore walls (e.g., `5.2 mm`);
+   - **Safety Threshold**: Verified against the configured safety limit (`≥ 3.5 mm`); indicator glows green;
+   - **Clash Warnings**: Any unintended penetrations or sub-threshold walls are immediately highlighted in amber/red;
+2. Click **Export** → **Export STEP Solid (.stp)** to save production-ready B-Rep solids directly for machining or SolidWorks/NX assembly.
+

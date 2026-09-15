@@ -1,19 +1,40 @@
 ---
-title: Frequently Asked Questions
-description: Offline capability, update proxies, and algorithmic safety
+title: Frequently Asked Questions (FAQ)
+description: Common questions regarding offline usage, wall thickness inspection, and CAD interoperability
 ---
 
 # Frequently Asked Questions (FAQ)
 
-### Q: Can SureFlow operate in strict offline air-gapped environments?
-**A**: **Yes**. All geometry generation, AI topology pathfinding, and STEP export routines run 100% on your local machine with zero external cloud dependencies.
+### Q: Does SureFlow support completely air-gapped or confidential offline environments?
+**A**: **Yes, 100%**. SureFlow is a native desktop CAD application. The OpenCASCADE geometry kernel and cavity databases operate locally on your CPU and GPU. All 3D modeling, Boolean cuts, clearance calculations, and STEP exports execute entirely on your workstation without cloud dependencies. Your proprietary engineering files remain on your local disk.
 
 ---
 
-### Q: How does the sureflow-update.hy3d.space proxy work?
-**A**: When releases are drafted on GitHub, a Cloudflare Edge Worker caches `latest.yml`, `latest-mac.yml`, and binary installers. This guarantees global CDN bandwidth and immunity to external link breakage.
+### Q: How is minimum safety wall thickness calculated and configured?
+**A**: SureFlow applies Lamé's thick cylinder equations from elasticity theory, incorporating the circuit's maximum working pressure and the chosen material's allowable tensile stress. Engineers can configure safety wall thickness thresholds in the Inspector panel (e.g., $\ge 5\text{ mm}$ for high-pressure supply and $\ge 3\text{ mm}$ for low-pressure control lines). If any bore walls violate this limit, the system alerts with color-coded highlights.
 
 ---
 
-### Q: How is minimum safety wall thickness calculated?
-**A**: SureFlow applies Lamé's thick cylinder equations combined with designated rated pressures and material yield ratings, supplemented by empirical safety thresholds.
+### Q: Can exported STEP models be modified in SolidWorks, Siemens NX, or Creo?
+**A**: **Yes, seamlessly**. SureFlow exports true ISO 10303-214 (AP214) boundary representation (B-Rep) solids rather than faceted polygon meshes. When opened in SolidWorks, NX, or Creo, the model is recognized as a solid part ready for feature additions, boolean cuts, 2D drawing projections, and mechanical assembly simulations.
+
+---
+
+### Q: How do I verify whether internal fluid channels are fully connected?
+**A**:
+1. Toggle **Translucent Section Mode** (or press shortcut `X`) on the top viewport toolbar to view the intersection ellipse between connecting bores;
+2. Select any hydraulic net in the feature tree (e.g., `Circuit-P`); all connected passages will illuminate in coherent flow colors, while unconnected blind holes remain neutral.
+
+---
+
+### Q: How can an enterprise expand proprietary non-standard cavity libraries?
+**A**: SureFlow provides an open JSON schema for custom valve cavity definitions. Place your custom valve step dimensions, counterbores, O-ring chamfers, and thread callouts into the `library/custom/` directory, then click "Refresh Library" to instantly drag and drop custom cavities into your blocks.
+
+---
+
+### Q: How do I resolve macOS "Cannot verify developer" security prompts?
+**A**: macOS developer preview packages use temporary code signing. To open:
+1. Open macOS **System Settings**;
+2. Go to **Privacy & Security**;
+3. Scroll down to the Security section and click **Open Anyway** under the SureFlow prompt, then enter your administrator password to confirm.
+

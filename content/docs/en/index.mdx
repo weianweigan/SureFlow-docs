@@ -1,34 +1,45 @@
 ---
 title: System Overview
-description: Learn about the architecture and core capabilities of SureFlow
+description: Discover the core CAD capabilities and engineering workflow of SureFlow
 ---
 
 # SureFlow System Overview
 
-**SureFlow** is an industrial-grade collaborative design platform engineered for **intelligent hydraulic manifold blocks**, catering to heavy machinery, aerospace ground support, precision machine tools, and clean energy systems.
+**SureFlow** is a professional desktop CAD software engineered for **3D hydraulic manifold block design, cavity layout, and live clearance verification**, serving heavy machinery, machine tools, fluid power systems, and industrial automation.
 
-It replaces inefficient manual 2D CAD projection drafting, cumbersome clearance validation, and auxiliary cross-drilling with an automated AI topology search and millisecond-level geometric validation.
-
----
-
-## Core Pillars
-
-### 1. AI Channel Topology Optimization
-SureFlow leverages 3D spatial graph search and fluid resistance minimization algorithms:
-- Automatically sizes passage cross-sections based on rated flows and pressures across ports (P, T, A, B, X, Y);
-- Explores shortest 3D routes inside raw stock, favoring orthogonal passages to minimize right-angle bend head losses;
-- Minimizes external process plugging holes, eliminating leak points at the source.
-
-### 2. Real-time Wall Thickness & Clearance Verification
-- **Dynamic 3D clearance monitoring**: Millisecond recalculation of shortest Euclidean distances between arbitrary spatial bores and surfaces;
-- **Pressure-rated thickness safety**: Color-coded warnings based on working pressure (16–31.5 MPa or up to 70 MPa ultra-high pressure) and material yield strength.
-
-### 3. Standards-Compliant Industrial Export
-- **Lossless STEP export**: Compliant with ISO 10303 (AP203, AP214, AP242) for seamless import into SolidWorks, Siemens NX, Creo, and CATIA;
-- **Machining depth schedules**: Automated drill schedules ready for direct execution on Horizontal Machining Centers (HMC).
+Traditional hydraulic manifold design heavily relies on tedious 2D CAD projections, manual spatial cross-checking, and error-prone wall thickness estimation. SureFlow provides a unified, parametric 3D workspace from stock sizing and parametric cavity placement to live clearance inspection and high-fidelity STEP solid export.
 
 ---
 
-## Architecture
+## Core Capabilities
 
-Installers and updates are cached and delivered through Cloudflare Worker (`sureflow-update.hy3d.space`), mirroring GitHub Releases with global CDN speed and high availability.
+### 1. Parametric Stock & Datum Selection
+- **Versatile Blank Geometries**: Rapid parametric definition of rectangular blocks, stepped L-blocks, and T-blocks;
+- **Interactive Mounting Faces**: Pick datum faces across Top (+Z), Bottom (-Z), and all lateral sides (±X, ±Y);
+- **External STEP Reference**: Import host machine frames or assembly enclosures as translucent references for clash avoidance.
+
+### 2. Standard Cavity Library & Intuitive Placement
+- **Standard Screw-in Cartridge Valves**: Built-in cavity templates for industrial standards (Sun, HydraForce, 2-way slip-in cartridge valves);
+- **ISO 4401 Subplate Footprints**: Standard mounting patterns for directional and proportional valves (NG6 / CETOP 03, NG10 / CETOP 05);
+- **Fluid Ports & Flanges**: SAE straight thread (ISO 11926), Metric ports (ISO 6149), high-pressure SAE J518 flanges, and locating pin bores;
+- **Custom Schema Extension**: Expand enterprise-specific valve cavities via clean, parametric JSON definitions.
+
+### 3. Millisecond Clearance & Safety Wall Thickness Inspection
+- **Live 3D Collision Detection**: Immediate calculation of spatial clearance between intersecting and non-intersecting channels during drag-and-drop;
+- **Pressure-Rated Wall Thickness Check**: Automatic verification based on circuit working pressures (16–31.5 MPa or up to 70 MPa) and material allowable stress;
+- **Translucent 3D Section Views**: Inspect channel intersection ellipses and oil flow paths directly in real time.
+
+### 4. Standards-Compliant STEP Solid Export
+- **OpenCASCADE (OCCT) Kernel**: Generates standards-compliant ISO 10303 (AP203 / AP214) boundary representation (B-Rep) solids;
+- **Seamless Downstream CAD Integration**: Fully compatible with SolidWorks, Siemens NX, PTC Creo, and CATIA for assembly modeling and 2D drafting;
+- **Drill Schedules**: Outputs detailed hole coordinates, diameter, machining depth steps, and spotface countersink schedules.
+
+---
+
+## Quick Navigation
+
+- [Installation & System Requirements](/en/docs/installation): Review system prerequisites and desktop installation guides;
+- [5-Minute Quick Start](/en/docs/quick-start): Walk through creating your first ISO 4401 manifold block;
+- [Hydraulic Design Workflow](/en/docs/workflow): Learn the end-to-end fluid engineering design process;
+- [Import & Export Formats](/en/docs/import-export): Understand STEP solids, project files, and drill schedules;
+- [Frequently Asked Questions (FAQ)](/en/docs/faq): Find answers regarding offline execution, wall thickness rules, and security.

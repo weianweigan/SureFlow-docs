@@ -1,0 +1,48 @@
+---
+title: 安装与系统要求
+description: 在 Windows 与 macOS (Apple Silicon) 上获取并安装 SureFlow
+---
+
+# 安装指南
+
+SureFlow 提供官方签名或预编译的桌面端安装包，通过 Cloudflare 全球边缘分发网络提供下载。
+
+---
+
+## 系统配置要求
+
+| 平台 | 最低配置 | 推荐配置 |
+| :--- | :--- | :--- |
+| **Windows** | Windows 10 64-bit (1809+) | Windows 11 64-bit，配备独立 GPU |
+| **macOS** | macOS Monterey (12.0+) | macOS Sonoma (14.0+) / Apple Silicon M2/M3/M4 |
+| **内存** | 8 GB RAM | 16 GB 或以上（处理复杂千孔级阀块推荐 32 GB） |
+| **存储空间** | 1 GB 可用固态硬盘空间 | 5 GB NVMe 缓存空间 |
+
+---
+
+## 下载安装方式
+
+### Windows 用户 (.exe)
+
+1. 前往 [下载中心](/zh/download)，下载 `SureFlow-Setup-x.y.z.exe`；
+2. 双击安装程序，跟随向导完成安装；
+3. 首次启动将自动注册 `.sureflow` 工程文件与主流 STEP 格式关联；
+4. Windows 版本内置后台增量更新器，启动后每隔 4 小时静默核查 `sureflow-update.hy3d.space`。
+
+### macOS 用户 (.dmg)
+
+> [!NOTE]
+> 目前 macOS 官方安装包专注于 **Apple Silicon (M1/M2/M3/M4)** 系列芯片原生指令集，未对 Intel x86 架构生成旧版包。
+
+1. 在下载中心点击下载 `SureFlow-x.y.z-arm64.dmg`；
+2. 双击打开镜像，将 `SureFlow.app` 拖拽入 `Applications`（应用程序）目录；
+3. 如遇到系统未识别签名提示，可在系统设置中前往「隐私与安全性」点击「仍要打开」；
+4. 客户端内置手动与自动检查更新入口，确保随时获取最新流道优化算法。
+
+---
+
+## 自动更新与代理服务
+
+客户端启动及运行时通过通用更新通道与 `https://sureflow-update.hy3d.space/` 保持通信：
+- 更新服务采用 Cloudflare Worker 代理并缓存 GitHub Releases 发布的同名清单 `latest.yml` 与 `latest-mac.yml`；
+- 无需直连境外服务，保障国内与国际用户均享有毫秒级更新响应与高速下载带宽。

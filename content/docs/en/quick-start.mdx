@@ -1,0 +1,43 @@
+---
+title: 5-Minute Quick Start
+description: Build your first directional valve manifold with AI channel routing
+---
+
+# 5-Minute Quick Start
+
+Learn how to create a standard ISO 4401-03 (NG6) directional valve block in under 5 minutes.
+
+---
+
+## Step 1: Create Project & Define Stock Size
+1. Launch SureFlow and click **New Project**;
+2. Select base material: `Forged 45# Steel` (or `6061-T6 Aluminum`);
+3. Enter stock dimensions ($X = 120\text{ mm}$, $Y = 100\text{ mm}$, $Z = 80\text{ mm}$);
+4. An interactive 3D solid is instantly generated in the viewport.
+
+---
+
+## Step 2: Place Standard Valve Cavity
+1. Open the **Standard Component Library** on the left panel;
+2. Under `ISO 4401`, drag `ISO 4401-03 (CETOP 03 / NG6)` onto the **top face (+Z)**;
+3. Center coordinates to $(X=60, Y=50)$;
+4. Four mounting bolt holes and four service ports (`P`, `T`, `A`, `B`) will be generated.
+
+---
+
+## Step 3: Add Service Ports
+1. Select the bottom or side face;
+2. Add two `G 3/8"` threaded ports: $P_0$ (Inlet) and $T_0$ (Tank).
+
+---
+
+## Step 4: AI Channel Auto-Routing
+1. Click **AI Auto Route** on the top toolbar;
+2. Specify connections: $P_0 \rightarrow P$ and $T_0 \rightarrow T$;
+3. Click **Execute**. The internal kernel routes orthogonal shortest paths and adds necessary process plugs in seconds.
+
+---
+
+## Step 5: Verify & Export
+1. Check the **Rules Inspector**: 0 clearance violations, safe wall thickness $> 5.2\text{ mm}$;
+2. Click **Export** and choose **STEP Solid (.stp)** to save.

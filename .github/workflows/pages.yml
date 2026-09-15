@@ -1,0 +1,33 @@
+name: Deploy & Validate Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install Dependencies
+        run: npm ci
+      - name: Build Next.js Static Export
+        run: npm run build
+      - name: Verify Output Directory
+        run: |
+          if [ ! -d "out" ]; then
+            echo "Error: 'out' directory not found!"
+            exit 1
+          fi
+          echo "Static export verified successfully."

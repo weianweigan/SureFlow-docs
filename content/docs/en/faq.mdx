@@ -1,0 +1,19 @@
+---
+title: Frequently Asked Questions
+description: Offline capability, update proxies, and algorithmic safety
+---
+
+# Frequently Asked Questions (FAQ)
+
+### Q: Can SureFlow operate in strict offline air-gapped environments?
+**A**: **Yes**. All geometry generation, AI topology pathfinding, and STEP export routines run 100% on your local machine with zero external cloud dependencies.
+
+---
+
+### Q: How does the sureflow-update.hy3d.space proxy work?
+**A**: When releases are drafted on GitHub, a Cloudflare Edge Worker caches `latest.yml`, `latest-mac.yml`, and binary installers. This guarantees global CDN bandwidth and immunity to external link breakage.
+
+---
+
+### Q: How is minimum safety wall thickness calculated?
+**A**: SureFlow applies Lamé's thick cylinder equations combined with designated rated pressures and material yield ratings, supplemented by empirical safety thresholds.

@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 40% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --border: 214 32% 91%;
+  }
+
+  .dark {
+    --background: 222 47% 7%;
+    --foreground: 210 40% 98%;
+    --card: 222 47% 11%;
+    --card-foreground: 210 40% 98%;
+    --border: 217 33% 18%;
+  }
+
+  body {
+    @apply bg-slate-950 text-slate-100 font-sans antialiased selection:bg-cyan-500/30 selection:text-cyan-200;
+  }
+}
+
+/* 工业科技感背景网格 */
+.tech-grid-bg {
+  background-image: radial-gradient(rgba(56, 189, 248, 0.08) 1px, transparent 1px),
+    radial-gradient(rgba(14, 165, 233, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
+  background-position: 0 0, 16px 16px;
+}
+
+/* 玻璃拟态卡片 */
+.glass-panel {
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(56, 189, 248, 0.15);
+}
+
+.glass-panel:hover {
+  border-color: rgba(56, 189, 248, 0.35);
+}
+
+/* 渐变流光文字 */
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-sky-400 via-cyan-300 to-blue-500;
+}

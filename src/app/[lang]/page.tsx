@@ -7,6 +7,7 @@ import {
   CheckCircle2,
   Terminal,
 } from 'lucide-react';
+import { CursorTrail } from '@/components/cursor-trail';
 
 interface HomePageProps {
   params: Promise<{ lang: string }>;
@@ -21,6 +22,9 @@ export default async function HomePage({ params }: HomePageProps) {
 
   return (
     <div className="relative min-h-screen bg-canvas text-ink selection:bg-neutral-900 selection:text-white">
+      {/* GSAP 鼠标拖尾交互层 */}
+      <CursorTrail />
+
       {/* 极简工程背景网格 */}
       <div className="fixed inset-0 pointer-events-none opacity-30 [background-image:linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] [background-size:32px_32px]" />
 

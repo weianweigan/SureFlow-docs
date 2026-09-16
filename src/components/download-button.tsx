@@ -49,7 +49,7 @@ export const DownloadButton: React.FC<DownloadButtonProps> = ({ lang, className 
           {isMac ? <Laptop className="h-5 w-5" /> : <Monitor className="h-5 w-5" />}
           <div className="flex flex-col text-left">
             <span className="text-sm font-semibold tracking-tight leading-tight">
-              {t.hero.primaryAction} ({isMac ? 'macOS arm64' : 'Windows x64'})
+              {t.hero.secondaryAction} ({isMac ? 'macOS arm64' : 'Windows x64'})
             </span>
             <span className="text-[11px] font-mono text-neutral-300">
               {currentVersion} • 稳定版直链

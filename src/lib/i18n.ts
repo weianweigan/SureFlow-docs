@@ -17,8 +17,8 @@ export const DICTIONARY = {
       title: '新一代智能液压阀块设计平台',
       titleHighlight: '',
       description: '参数化孔腔布设、毫秒级壁厚与干涉检查，直出高保真 STEP 实体。',
-      primaryAction: '探索设计文档',
-      secondaryAction: 'GitHub 源码',
+      primaryAction: '查看文档',
+      secondaryAction: '下载客户端',
       badges: ['STEP AP214', 'OpenCASCADE 内核', '毫秒级干涉检查', '离线桌面原生'],
     },
     uiSection: {
@@ -114,8 +114,8 @@ export const DICTIONARY = {
       title: 'Precision Hydraulic Manifold Design',
       titleHighlight: '',
       description: 'Parametric cavity placement, live clearance verification, and production-ready STEP solids.',
-      primaryAction: 'Explore Documentation',
-      secondaryAction: 'GitHub',
+      primaryAction: 'View Documentation',
+      secondaryAction: 'Download Client',
       badges: ['STEP AP214', 'OpenCASCADE BRep', 'Live Clearance Check', 'Offline Native'],
     },
     uiSection: {

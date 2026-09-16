@@ -6,6 +6,7 @@ import {
   ExternalLink,
   CheckCircle2,
   Terminal,
+  Download,
 } from 'lucide-react';
 import { CursorTrail } from '@/components/cursor-trail';
 
@@ -44,7 +45,7 @@ export default async function HomePage({ params }: HomePageProps) {
             {t.hero.description}
           </p>
 
-          {/* 主操作入口：文档与 GitHub */}
+          {/* 主操作入口：查看文档与下载客户端 */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
             <Link
               href={`/${lang}/docs`}
@@ -53,15 +54,13 @@ export default async function HomePage({ params }: HomePageProps) {
               <span>{t.hero.primaryAction}</span>
               <ArrowRight className="h-4 w-4" />
             </Link>
-            <a
-              href="https://github.com/weianweigan/SureFlow"
-              target="_blank"
-              rel="noreferrer"
+            <Link
+              href={`/${lang}/download`}
               className="inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold text-ink bg-white/90 hover:bg-white border border-hairline rounded-pill transition shadow-2xs"
             >
+              <Download className="h-4 w-4" />
               <span>{t.hero.secondaryAction}</span>
-              <ExternalLink className="h-4 w-4" />
-            </a>
+            </Link>
           </div>
 
           {/* 极简规范徽标行 */}
